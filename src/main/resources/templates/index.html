@@ -1,0 +1,230 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement d'Étudiants</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"], input[list] {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button[type="submit"] {
+            width: 100%;
+            height: 40px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <h2 th:text="${message}">Bienvenue sur la page d'accueil</h2>
+    <form action="/enregistrer" method="post">
+        <h2>Enregistrement d'Étudiant</h2>
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="prenom">Prénom:</label>
+        <input type="text" id="prenom" name="prenom" required>
+
+        <label for="faculte">Faculté:</label>
+        <input type="text" id="faculte" name="faculte" list="facultes" required>
+        <datalist id="facultes">
+            <option th:each="faculte : ${facultes}" th:value="${faculte}"></option>
+        </datalist>
+
+        <label for="departement">Département:</label>
+        <input type="text" id="departement" name="departement" list="departements" required>
+        <datalist id="departements">
+            <option th:each="departement : ${departements}" th:value="${departement}"></option>
+        </datalist>
+
+        <label for="filiere">Filière:</label>
+        <input type="text" id="filiere" name="filiere" list="filieres" required>
+        <datalist id="filieres">
+            <option th:each="filiere : ${filieres}" th:value="${filiere}"></option>
+        </datalist>
+
+        <label for="niveau">Niveau:</label>
+        <input type="number" id="niveau" name="niveau" list="niveaux" required>
+        
+
+        <button type="submit">Enregistrer</button>
+    </form>
+    <a href="/genererpdf">Télécharger la liste des étudiants en PDF</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement d'Étudiants</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            z-index: 10;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .background {
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .content {
+            text-align: center;
+            z-index: 2;
+            color: white;
+        }
+        form {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none; /* Cache le formulaire par défaut */
+            background: white;
+            z-index: 2;
+            max-height: 80vh; /* Limite la hauteur du formulaire */
+            overflow-y: auto; /* Ajoute la possibilité de défiler */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"], input[list] {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button[type="submit"], button {
+            width: 100%;
+            height: 40px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover, button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+    <script>
+        function showForm() {
+            document.querySelector('.background').style.display = 'none'; // Retire l'image de fond
+            document.querySelector('form').style.display = 'block'; // Affiche le formulaire
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/contact">Information</a>
+        <!-- <a href="/apropos">À propos</a> -->
+    </nav>
+
+    <div class="background">
+        <div class="content">
+            <h2>Veuillez vous inscrire</h2>
+            <img src="C:\Users\kemza\Desktop\projet java\gestion_etudiants\src\main\resources\templates\img.jpg" class="img-fluid" alt="Description de l'image">
+            <button onclick="showForm()">S'inscrire</button>
+        </div>
+    </div>
+
+    <form action="/enregistrer" method="post">
+        <h2>Enregistrement d'Étudiant</h2>
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="prenom">Prénom:</label>
+        <input type="text" id="prenom" name="prenom" required>
+
+        <label for="faculte">Faculté:</label>
+        <input type="text" id="faculte" name="faculte" list="facultes" required>
+        <datalist id="facultes">
+            <option th:each="faculte : ${facultes}" th:value="${faculte}"></option>
+        </datalist>
+
+        <label for="departement">Département:</label>
+        <input type="text" id="departement" name="departement" list="departements" required>
+        <datalist id="departements">
+            <option th:each="departement : ${departements}" th:value="${departement}"></option>
+        </datalist>
+
+        <label for="filiere">Filière:</label>
+        <input type="text" id="filiere" name="filiere" list="filieres" required>
+        <datalist id="filieres">
+            <option th:each="filiere : ${filieres}" th:value="${filiere}"></option>
+        </datalist>
+
+        <label for="niveau">Niveau:</label>
+        <input type="number" id="niveau" name="niveau" list="niveaux" required>
+        
+        <button type="submit">Enregistrer</button>
+    </form>
+    
+    <!-- <a href="/genererpdf">Télécharger la liste des étudiants en PDF</a> -->
+</body>
+</html>
