@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
+import com.itextpdf.io.image.ImageDataFactory;
 
 // import com.gestion_etudiants.gestion_etudiants.Repository.EtudiantRepository;
 // import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
@@ -63,7 +64,9 @@ import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
 
 
 @Service
@@ -75,16 +78,75 @@ public class pdfService {
              PdfDocument pdfDoc = new PdfDocument(writer);
              Document document = new Document(pdfDoc)) {
 
-            // Ajout du contenu
-            document.add(new Paragraph("Informations de l'étudiant")
+            document.add(new Paragraph("REPUBLIQUE DU CAMEROUN")
+                    .setFontSize(14)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Paix -- Patrie")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("UNIVERSITÉ DE YAOUNDÉ I")
+                    .setFontSize(14)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("FACULTE DES SCIENCES B.P. 812 Yaoundé,")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Tél/Fax. : (237) 22.23.44.96")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+                    try {
+                        String imagePath = getClass().getClassLoader().getResource("images/img.jpg").getPath();
+                        Image image = new Image(ImageDataFactory.create(imagePath));
+                        document.add(image);
+                    } catch (Exception e) {
+                        System.err.println("Erreur lors du chargement de l'image : " + e.getMessage());
+                        document.add(new Paragraph("Image non disponible").setFontSize(12).setTextAlignment(TextAlignment.CENTER));
+                    }
+                    
+            document.add(new Paragraph("Vice-Doyen chargé de la Scolarité ct du Suivi des Etudiants")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+                    document.add(new Paragraph("REPUBLIC OF CAMEROON")
+                    .setFontSize(14)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Peace — Work — Fatherland")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("UNIVERSITY OF YAOUNDE I")
+                    .setFontSize(14)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("FACULTY OF SCIENCE")
+                    .setFontSize(14)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("P.O.Box 812 Yaounde,")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Tel/Fax. : (237) 22.23.44.96")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Vice-Dean in charge of Students Affairs")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+                    document.add(new Paragraph("NO UFS/VDSSE/24")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+
+            // Date
+            document.add(new Paragraph("Yaoundé, le [Date]")
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER));
+
+            // Titre de l'attestation
+            document.add(new Paragraph("ATTESTATION D'INSCRIPTION")
                     .setFontSize(18)
-                    .setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER));
-            document.add(new Paragraph("Nom : " + etudiant.getNom()));
-            document.add(new Paragraph("Prénom : " + etudiant.getPrenom()));
-            document.add(new Paragraph("Faculté : " + etudiant.getFaculte()));
-            document.add(new Paragraph("Département : " + etudiant.getDepartement()));
-            document.add(new Paragraph("Filière : " + etudiant.getFiliere()));
-            document.add(new Paragraph("Niveau : " + etudiant.getNiveau()));
+                    .setTextAlignment(TextAlignment.CENTER));
+
+            // Contenu de l'attestation
+            document.add(new Paragraph("Le Doyen de la Faculté des Sciences atteste que, Monsieur " + etudiant.getNom() + " " + etudiant.getPrenom() + ", né le "+ etudiant.getDateNaissance()+" à "+ etudiant.getLieuNaissance() + "de  matricule "+ etudiant.getMatricule()  + ", a été étudiant régulièrement inscrit en " + etudiant.getNiveau() + ", filière " + etudiant.getFiliere() + ", pour le compte de l'année académique " + etudiant.getAnneeAcademique() + ", à la Faculté des Sciences de l'Université de Yaoundé I.")
+                    .setFontSize(12));
+            document.add(new Paragraph("En foi de quoi la présente Attestation lui est délivrée pour servir et valoir ce que de droit.")
+                    .setFontSize(12));
+            document.add(new Paragraph("Le Vice-Doyen chargé de la Scolarité et du Suivi des Etudiants")
+                    .setFontSize(12));
 
             // Fermer le document pour s'assurer que tout est écrit dans le flux
             document.close();

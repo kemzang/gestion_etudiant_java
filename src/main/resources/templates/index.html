@@ -1,85 +1,3 @@
-<!-- <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrement d'Étudiants</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        form {
-            width: 50%;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"], input[type="number"], input[list] {
-            width: 100%;
-            height: 30px;
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        button[type="submit"] {
-            width: 100%;
-            height: 40px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #3e8e41;
-        }
-    </style>
-</head>
-<body>
-    <h2 th:text="${message}">Bienvenue sur la page d'accueil</h2>
-    <form action="/enregistrer" method="post">
-        <h2>Enregistrement d'Étudiant</h2>
-        <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" required>
-
-        <label for="prenom">Prénom:</label>
-        <input type="text" id="prenom" name="prenom" required>
-
-        <label for="faculte">Faculté:</label>
-        <input type="text" id="faculte" name="faculte" list="facultes" required>
-        <datalist id="facultes">
-            <option th:each="faculte : ${facultes}" th:value="${faculte}"></option>
-        </datalist>
-
-        <label for="departement">Département:</label>
-        <input type="text" id="departement" name="departement" list="departements" required>
-        <datalist id="departements">
-            <option th:each="departement : ${departements}" th:value="${departement}"></option>
-        </datalist>
-
-        <label for="filiere">Filière:</label>
-        <input type="text" id="filiere" name="filiere" list="filieres" required>
-        <datalist id="filieres">
-            <option th:each="filiere : ${filieres}" th:value="${filiere}"></option>
-        </datalist>
-
-        <label for="niveau">Niveau:</label>
-        <input type="number" id="niveau" name="niveau" list="niveaux" required>
-        
-
-        <button type="submit">Enregistrer</button>
-    </form>
-    <a href="/genererpdf">Télécharger la liste des étudiants en PDF</a>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -149,7 +67,7 @@
             display: block;
             margin-bottom: 10px;
         }
-        input[type="text"], input[type="number"], input[list] {
+        input[type="text"], input[type="number"], input[list], input[type="date"] {
             width: 100%;
             height: 30px;
             margin-bottom: 20px;
@@ -176,13 +94,52 @@
             document.querySelector('.background').style.display = 'none'; // Retire l'image de fond
             document.querySelector('form').style.display = 'block'; // Affiche le formulaire
         }
+
+        function AfficheAccueil() {
+            // Affiche le contenu de base
+            document.querySelector('.background').style.display = 'flex'; // Affiche l'arrière-plan
+            document.querySelector('form').style.display = 'none'; // Cache le formulaire
+            document.querySelector('.content').style.display = 'block'; // Affiche le contenu principal
+        }
+
+        function showMatriculeDialog() {
+            $('#matriculeModal').modal('show'); // Affiche la modal
+        }
+
+        function validateMatricule() {
+    const matricule = document.getElementById('matriculeInput').value;
+
+    fetch(`/api/etudiants/matricule/${matricule}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Matricule non trouvé');
+            }
+            return response.json();
+        })
+        .then(etudiant => {
+            // Mettre à jour l'interface utilisateur avec les informations de l'étudiant
+            document.getElementById('attestationLink').href = '/chemin/vers/attestation/' + matricule; // Changez ceci
+            document.getElementById('carteLink').href = '/chemin/vers/carte/' + matricule; // Changez ceci
+
+            // Afficher les résultats
+            document.querySelector('.result-section').style.display = 'block'; // Affiche la section des résultats
+        })
+        .catch(error => {
+            alert(error.message); // Affiche un message d'erreur si le matricule n'est pas trouvé
+        });
+
+    $('#matriculeModal').modal('hide'); // Cache la modal après validation
+}
     </script>
+    <!-- Ajout des scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <nav>
-        <a href="/">Accueil</a>
-        <a href="/contact">Information</a>
-        <!-- <a href="/apropos">À propos</a> -->
+        <a href="#" onclick="AfficheAccueil()">Accueil</a>
+        <a href="#" onclick="showMatriculeDialog()">Information</a>
     </nav>
 
     <div class="background">
@@ -193,13 +150,25 @@
         </div>
     </div>
 
-    <form action="/enregistrer" method="post">
+    <form action="/enregistrer" method="post" enctype="multipart/form-data">
         <h2>Enregistrement d'Étudiant</h2>
         <label for="nom">Nom:</label>
         <input type="text" id="nom" name="nom" required>
 
         <label for="prenom">Prénom:</label>
         <input type="text" id="prenom" name="prenom" required>
+
+        <label for="dateNaissance">Date de Naissance:</label>
+        <input type="date" id="dateNaissance" name="dateNaissance" required>
+
+        <label for="lieuNaissance">Lieu de Naissance:</label>
+        <input type="text" id="lieuNaissance" name="lieuNaissance" required>
+
+        <label for="matricule">Matricule:</label>
+        <input type="text" id="matricule" name="matricule" required>
+
+        <label for="anneeAcademique">Année Académique:</label>
+        <input type="text" id="anneeAcademique" name="anneeAcademique" required>
 
         <label for="faculte">Faculté:</label>
         <input type="text" id="faculte" name="faculte" list="facultes" required>
@@ -220,10 +189,37 @@
         </datalist>
 
         <label for="niveau">Niveau:</label>
-        <input type="number" id="niveau" name="niveau" list="niveaux" required>
+        <input type="number" id="niveau" name="niveau" required>
+
+        <label for="payement">Payement:</label>
+        <input type="text" id="payement" name="payement" required>
+
+        <label for="photo">Photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required>
         
         <button type="submit">Enregistrer</button>
     </form>
-    
+
+    <!-- Modal pour l'entrée du matricule -->
+    <div class="modal fade" id="matriculeModal" tabindex="-1" role="dialog" aria-labelledby="matriculeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="matriculeModalLabel">Entrer votre Matricule</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="matriculeInput">Matricule:</label>
+                    <input type="text" id="matriculeInput" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="validateMatricule()">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -5,10 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.Id;
 
 @Entity
 @Table(name = "Etudiant")
@@ -25,20 +26,47 @@ public class Etudiant {
     @Column(length = 50)
     private String prenom;
     @Column(length = 50)
+    private String dateNaissance;
+    @Column(length = 50)
+    private String lieuNaissance;
+    @Column(length = 50)
+    private String matricule;
+    @Column(length = 50)
+    private String anneeAcademique;
+    @Column(length = 50)
     private String faculte;
     @Column(length = 50)
     private String departement;
     @Column(length = 50)
     private String filiere;
     private int niveau;
+    private int payement;
 
-    public Etudiant(String nom, String prenom, String faculte, String departement, String filiere, int niveau) {
+    @Lob // Champ pour stocker la photo
+    private byte[] photo;
+
+    @Lob // Large OBject pour stocker des données binaires
+    private byte[] pdfAttestationScolarite;
+
+    @Lob
+    private byte[] pdfCarteEtudiant;
+
+    // Constructeur avec les PDF et la photo
+    public Etudiant(String nom, String prenom, String dateNaissance, String lieuNaissance, String matricule, String anneeAcademique, String faculte, String departement, String filiere, int niveau, int payement, byte[] pdfAttestationScolarite, byte[] pdfCarteEtudiant, byte[] photo) {
         this.nom = nom;
         this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+        this.lieuNaissance = lieuNaissance;
+        this.matricule = matricule;
+        this.anneeAcademique = anneeAcademique;
         this.faculte = faculte;
         this.departement = departement;
         this.filiere = filiere;
         this.niveau = niveau;
+        this.payement = payement;
+        this.photo = photo;
+        this.pdfAttestationScolarite = pdfAttestationScolarite;
+        this.pdfCarteEtudiant = pdfCarteEtudiant;
+        
     }
-    
 }
