@@ -77,24 +77,28 @@ package com.gestion_etudiants.gestion_etudiants.Controller.Etudiant;
 //     Etudiant savedEtudiant = etudiantService.createEtudiant(etudiant);
 
 //     // Configurez la réponse HTTP pour télécharger le PDF
-//     HttpHeaders headers = new HttpHeaders();
-//     headers.setContentType(MediaType.APPLICATION_PDF);
-//     headers.setContentDispositionFormData("filename", "etudiant_" + savedEtudiant.getNom() + "_" + savedEtudiant.getPrenom() + ".pdf");
+    // HttpHeaders headers = new HttpHeaders();
+    // headers.setContentType(MediaType.APPLICATION_PDF);
+    // headers.setContentDispositionFormData("filename", "etudiant_" + savedEtudiant.getNom() + "_" + savedEtudiant.getPrenom() + ".pdf");
 
-//     // Retournez le PDF en tant que réponse HTTP
-//     return ResponseEntity.ok()
-//             .headers(headers)
-//             .body(savedEtudiant.getPdfAttestationScolarite());
+    // // Retournez le PDF en tant que réponse HTTP
+    // return ResponseEntity.ok()
+    //         .headers(headers)
+    //         .body(savedEtudiant.getPdfAttestationScolarite());
 // }
 
 // }
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,8 +110,10 @@ import com.gestion_etudiants.gestion_etudiants.Service.GenererPDF.pdfCarteEtudia
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.util.List;
 
 @Controller
 public class EtudiantController {
@@ -165,31 +171,40 @@ public class EtudiantController {
     
         // Enregistrez l'étudiant dans la base de données
         Etudiant savedEtudiant = etudiantService.createEtudiant(etudiant);
+
+        HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.setContentDispositionFormData("filename", "etudiant_" + savedEtudiant.getNom() + "_" + savedEtudiant.getPrenom() + ".pdf");
+
+    // // Retournez le PDF en tant que réponse HTTP
+    return ResponseEntity.ok()
+            .headers(headers)
+            .body(savedEtudiant.getPdfAttestationScolarite());
     
         // Créer un fichier ZIP
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
-            // Ajouter l'attestation de scolarité
-            ZipEntry entry1 = new ZipEntry("attestation_scolarite.pdf");
-            zos.putNextEntry(entry1);
-            zos.write(pdfAttestationScolarite);
-            zos.closeEntry();
+        // ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+        //     // Ajouter l'attestation de scolarité
+        //     ZipEntry entry1 = new ZipEntry("attestation_scolarite.pdf");
+        //     zos.putNextEntry(entry1);
+        //     zos.write(pdfAttestationScolarite);
+        //     zos.closeEntry();
 
-            // Ajouter la carte d'étudiant
-            ZipEntry entry2 = new ZipEntry("carte_etudiant.pdf");
-            zos.putNextEntry(entry2);
-            zos.write(pdfCarteEtudiant);
-            zos.closeEntry();
-        }
+        //     // Ajouter la carte d'étudiant
+        //     ZipEntry entry2 = new ZipEntry("carte_etudiant.pdf");
+        //     zos.putNextEntry(entry2);
+        //     zos.write(pdfCarteEtudiant);
+        //     zos.closeEntry();
+        // }
 
-        // Configurer la réponse HTTP pour le ZIP
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("filename", "documents.zip");
+        // // Configurer la réponse HTTP pour le ZIP
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        // headers.setContentDispositionFormData("filename", "documents.zip");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(baos.toByteArray());
+        // return ResponseEntity.ok()
+        //         .headers(headers)
+        //         .body(baos.toByteArray());
     }
-    
+
 }
