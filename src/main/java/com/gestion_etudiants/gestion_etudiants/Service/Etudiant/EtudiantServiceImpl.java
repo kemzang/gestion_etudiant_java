@@ -22,9 +22,6 @@ public class EtudiantServiceImpl implements EtudiantService {
         return etudiantRepository.save(etudiant);
     }
 
-    // public Optional<Etudiant> trouverEtudiantParMatricule(String matricule) {
-    //     return etudiantRepository.findByMatricule(matricule);
-    // }
 
     @Override
     public List<Etudiant> listEtudiants() {
@@ -37,17 +34,18 @@ public class EtudiantServiceImpl implements EtudiantService {
 
     
 
-    // Méthode pour récupérer les PDF
+    @Override
     public byte[][] getEtudiantPDFsByMatricule(String matricule) {
         Optional<Etudiant> etudiant = getEtudiantByMatricule(matricule);
         if (etudiant.isPresent()) {
             Etudiant e = etudiant.get();
             return new byte[][]{e.getPdfAttestationScolarite(), e.getPdfCarteEtudiant()};
         } else {
-            return null; // ou throw une exception si l'étudiant n'existe pas
+            return null; 
         }
     }
 
+    @Override
     public byte[] getEtudiantPDFByMatricule(String matricule) {
         Optional<Etudiant> etudiant = getEtudiantByMatricule(matricule); // Use correct method name
         if (etudiant.isPresent()) {
@@ -58,6 +56,7 @@ public class EtudiantServiceImpl implements EtudiantService {
         }
     }
 
+    @Override
     public byte[] getEtudiantPDFByCarteEtudiant(String matricule) {
         Optional<Etudiant> etudiant = getEtudiantByMatricule(matricule); // Use correct method name
         if (etudiant.isPresent()) {

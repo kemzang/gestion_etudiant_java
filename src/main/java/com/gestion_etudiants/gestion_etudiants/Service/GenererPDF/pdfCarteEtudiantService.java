@@ -5,7 +5,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
@@ -27,43 +27,44 @@ public class pdfCarteEtudiantService {
             document.setMargins(20, 20, 20, 20);
 
             // Ajouter le titre
-            Paragraph title = new Paragraph("CARTES DE MEMBRE")
+            Paragraph title = new Paragraph("CARTE ETUDIANT")
                     .setFontSize(18)
                     .setTextAlignment(TextAlignment.CENTER)
                     .setBold();
             document.add(title);
 
-            // Créer un Div pour la mise en page
-            Div mainDiv = new Div();
-            mainDiv.setMarginTop(20); // Espace au-dessus
+            // Créer une table avec 2 colonnes
+            Table table = new Table(2);
+            table.setWidth(UnitValue.createPercentValue(100)); // 100% de la largeur de la page
 
             // Ajouter l'image de l'étudiant
             byte[] imageBytes = etudiant.getPhoto(); // Assurez-vous que cette méthode retourne un tableau d'octets
             if (imageBytes != null) {
                 Image image = new Image(ImageDataFactory.create(imageBytes));
                 image.setWidth(UnitValue.createPercentValue(30)); // Ajuster la largeur de l'image
-                mainDiv.add(image);
+                table.addCell(image); // Image dans la première colonne
             } else {
                 System.err.println("Erreur : l'image de l'étudiant est nulle.");
+                table.addCell(new Paragraph("Image non disponible").setTextAlignment(TextAlignment.CENTER));
             }
 
             // Créer un Div pour les informations
-            Div infoDiv = new Div();
-            infoDiv.setMarginLeft(20); // Espace à gauche
+            StringBuilder infoText = new StringBuilder();
+            infoText.append("NOM & PRÉNOMS : ").append(etudiant.getNom()).append(" ").append(etudiant.getPrenom()).append("\n")
+                    .append("MATRICULE : ").append(etudiant.getMatricule()).append("\n")
+                    .append("QUALITÉ : ETUDIANT\n")
+                    .append("FILIERE & NIVEAU : ").append(etudiant.getFiliere()).append(" ").append(etudiant.getNiveau()).append("\n")
+                    .append("ANNÉE ACADÉMIQUE : ").append(etudiant.getAnneeAcademique()).append("\n");
 
             // Ajouter les informations de l'étudiant
-            infoDiv.add(new Paragraph("NOM & PRÉNOMS : " + etudiant.getNom() + " " + etudiant.getPrenom()).setBold());
-            infoDiv.add(new Paragraph("MATRICULE : " + etudiant.getMatricule()).setBold());
-            infoDiv.add(new Paragraph("QUALITÉ : MEMBRE").setBold());
-            infoDiv.add(new Paragraph("FILIERE & NIVEAU : " + etudiant.getFiliere() + " " + etudiant.getNiveau()).setBold());
-            infoDiv.add(new Paragraph("ANNÉE ACADÉMIQUE : " + etudiant.getAnneeAcademique()).setBold());
+            Paragraph infoParagraph = new Paragraph(infoText.toString()).setBold();
+            table.addCell(infoParagraph); // Informations dans la deuxième colonne
 
-            // Ajouter les informations au Div principal
-            mainDiv.add(infoDiv);
-            document.add(mainDiv);
+            // Ajouter la table au document
+            document.add(table);
 
             // Ajouter un footer
-            document.add(new Paragraph("Association des étudiants de la faculté des Sciences")
+            document.add(new Paragraph("étudiants de la faculté des Sciences")
                     .setFontSize(12)
                     .setTextAlignment(TextAlignment.CENTER));
 

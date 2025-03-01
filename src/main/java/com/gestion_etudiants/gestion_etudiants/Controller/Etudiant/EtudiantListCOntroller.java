@@ -1,13 +1,9 @@
 package com.gestion_etudiants.gestion_etudiants.Controller.Etudiant;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl;
-import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 
 @Controller
 public class EtudiantListCOntroller {

@@ -80,3 +80,92 @@ button[type="submit"], button {
 button[type="submit"]:hover, button:hover {
     background-color: #3e8e41;
 }
+
+button:hover {
+    background-color: #45a049; /* Couleur au survol */
+}
+
+/* Styles pour la boîte de dialogue */
+#infoDialog {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.dialog-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+}
+
+/* Style pour afficher les liens vers les PDF */
+.pdf-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pdf-links a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end; /* Aligne les éléments à droite */
+    padding: 10px 20px; /* Espacement autour du nav */
+    color: white;
+}
+
+nav a, nav select {
+    margin-left: 20px; /* Espace entre les éléments */
+    /* color: white;  */
+    text-decoration: none; /* Pas de soulignement */
+}
+
+.background {
+    background-image: url('img.jpg'); /* Chemin de l'image de fond */
+    background-size: cover; /* Couvre toute la page */
+    background-position: center; /* Centre l'image */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    flex-direction: column; /* Aligne les éléments en colonne */
+    color: white; /* Couleur du texte */
+    text-align: center; /* Centre le texte */
+}
+
+/* Styles pour le bouton */
+button {
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 16px; /* Taille de la police */
+    background-color: #4CAF50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur en pointeur */
+    margin-top: 20px; /* Espacement au-dessus du bouton */
+    max-width: 150px; /* Largeur maximale */
+    width: 100%; /* Prend toute la largeur disponible jusqu'à max-width */
+}
