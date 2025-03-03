@@ -18,8 +18,30 @@ public class EtudiantServiceImpl implements EtudiantService {
     
     @Override
     public Etudiant createEtudiant(Etudiant etudiant) {
-        // TODO Auto-generated method stub
+        // Validation basique, par exemple, vérifier si le matricule est déjà utilisé
+        if (etudiantRepository.findByMatricule(etudiant.getMatricule()).isPresent()) {
+            throw new IllegalArgumentException("Le matricule est déjà utilisé.");
+        }
+    
+        // Assigner le rôle par défaut si non spécifié
+        if (etudiant.getRole() == null || etudiant.getRole().isEmpty()) {
+            etudiant.setRole("etudiant"); // Assigne "étudiant" par défaut
+        }
         return etudiantRepository.save(etudiant);
+    }
+
+    public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
+        return etudiantRepository.findByMatricule(matricule);
+    }
+
+    
+    @Override
+    public Etudiant findByUsernameAndPasswordAndRole(String matricule, String password, String role) {
+        Etudiant user = findEtudiantByMatricule(matricule).orElse(null);
+        if (user != null && user.getMotpass().equals(password) && user.getRole().equals(role)) {
+            return user; // L'utilisateur existe, le mot de passe est correct et le rôle est valide
+        }
+        return null; // Retourne null si l'utilisateur n'existe pas, le mot de passe est incorrect ou le rôle ne correspond pas
     }
 
 

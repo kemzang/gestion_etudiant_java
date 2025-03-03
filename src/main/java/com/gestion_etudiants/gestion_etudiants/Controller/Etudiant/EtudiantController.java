@@ -37,6 +37,7 @@ public String enregistrerEtudiant(@RequestParam String nom,
                                                    @RequestParam String faculte,
                                                    @RequestParam String departement,
                                                    @RequestParam String filiere,
+                                                   @RequestParam String motpass,
                                                    @RequestParam int niveau,
                                                    @RequestParam int payement,
                                                    @RequestParam("photo") MultipartFile photo,
@@ -52,6 +53,7 @@ public String enregistrerEtudiant(@RequestParam String nom,
     etudiant.setFaculte(faculte);
     etudiant.setDepartement(departement);
     etudiant.setFiliere(filiere);
+    etudiant.setMotpass(motpass);
     etudiant.setNiveau(niveau);
     etudiant.setPayement(payement);
 

@@ -39,6 +39,10 @@ public class Etudiant {
     private String departement;
     @Column(length = 50)
     private String filiere;
+    @Column(length = 50)
+    private String motpass;
+    @Column(length = 150)
+    private String role;
     private int niveau;
     private int payement;
 
@@ -55,7 +59,7 @@ public class Etudiant {
     private byte[] pdfCarteEtudiant;
 
     // Constructeur avec les PDF et la photo
-    public Etudiant(String nom, String prenom, String dateNaissance, String lieuNaissance, String matricule, String anneeAcademique, String faculte, String departement, String filiere, int niveau, int payement, byte[] pdfAttestationScolarite, byte[] pdfCarteEtudiant, byte[] photo, byte[] photoDefaut) {
+    public Etudiant(String nom, String prenom, String dateNaissance, String lieuNaissance, String matricule, String anneeAcademique, String faculte, String departement, String filiere,String motpass,String role, int niveau, int payement, byte[] pdfAttestationScolarite, byte[] pdfCarteEtudiant, byte[] photo, byte[] photoDefaut) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
@@ -65,6 +69,8 @@ public class Etudiant {
         this.faculte = faculte;
         this.departement = departement;
         this.filiere = filiere;
+        this.motpass = motpass;
+        this.role = (role == null || role.isEmpty()) ? "etudiant" : role;
         this.niveau = niveau;
         this.payement = payement;
         this.photo = photo;

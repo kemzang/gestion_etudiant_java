@@ -16,7 +16,6 @@ public class FiliereServiceImplement implements FiliereService{
     
     @Override
     public List<Filieres> ListFiliere() {
-        // TODO Auto-generated method stub
         return filiereRepository.findAll();
     }
 }

@@ -5,93 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enregistrement d'Étudiants</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <nav>
-        <a href="/" onclick="AfficheAccueil()">Accueil</a>
-        <select id="infoSelect" onchange="handleInfoChange()">
-            <option value="">Document</option>
-            <option value="pdf_scolarite">Obtenir le PDF de scolarité</option>
-            <option value="carte_etudiant">Obtenir la carte étudiant</option>
-        </select>
-    </nav>
-
-    <div class="background">
-        <h2>Veuillez vous inscrire</h2>
-        <button onclick="showForm()">S'inscrire</button>
-    </div>
-
-    <form action="/enregistrer" method="post" enctype="multipart/form-data" style="display:none;">
-        <h2 th:text="${message}">Enregistrement d'Étudiant</h2>
-        <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" required>
-
-        <label for="prenom">Prénom:</label>
-        <input type="text" id="prenom" name="prenom" required>
-
-        <label for="dateNaissance">Date de Naissance:</label>
-        <input type="date" id="dateNaissance" name="dateNaissance" required>
-
-        <label for="lieuNaissance">Lieu de Naissance:</label>
-        <input type="text" id="lieuNaissance" name="lieuNaissance" required>
-
-        <label for="matricule">Matricule:</label>
-        <input type="text" id="matricule" name="matricule" required>
-
-        <label for="anneeAcademique">Année Académique:</label>
-        <input type="text" id="anneeAcademique" name="anneeAcademique" required>
-
-        <label for="faculte">Faculté:</label>
-        <input type="text" id="faculte" name="faculte" list="facultes" required>
-        <datalist id="facultes">
-            <option th:each="faculte : ${facultes}" th:value="${faculte}"></option>
-        </datalist>
-
-        <label for="departement">Département:</label>
-        <input type="text" id="departement" name="departement" list="departements" required>
-        <datalist id="departements">
-            <option th:each="departement : ${departements}" th:value="${departement}"></option>
-        </datalist>
-
-        <label for="filiere">Filière:</label>
-        <input type="text" id="filiere" name="filiere" list="filieres" required>
-        <datalist id="filieres">
-            <option th:each="filiere : ${filieres}" th:value="${filiere}"></option>
-        </datalist>
-
-        <label for="niveau">Niveau:</label>
-        <input type="number" id="niveau" name="niveau" required>
-
-        <label for="payement">Payement:</label>
-        <input type="text" id="payement" name="payement" required>
-
-        <label for="photo">Photo:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" required>
-
-        <button type="submit">Enregistrer</button>
-    </form>
-
-    <div id="infoDialog">
-        <div class="dialog-content">
-            <h3>Entrer votre Matricule</h3>
-            <input type="text" id="matriculeInput" placeholder="Matricule" required>
-            <br><br>
-            <button onclick="closeInfoDialog()">Valider</button>
-            <button onclick="">Annuler</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html> -->
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrement d'Étudiants</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         .step {
             display: none;
@@ -203,5 +116,39 @@
         </div>
     </div>
     <script src="script.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement d'Étudiants</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('img.jpg'); /* Chemin de l'image */
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image"></div>
+
+    <nav>
+        <a href="/" onclick="window.location.href='/'">Accueil</a>
+        <button onclick="window.location.href='/connexion'">Se connecter</button>
+        <button onclick="window.location.href='/inscription'">S'inscrire</button>
+    </nav>
+
 </body>
 </html>

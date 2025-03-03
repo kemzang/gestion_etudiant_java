@@ -9,138 +9,31 @@ body {
     position: relative;
     overflow: hidden;
 }
+
+nav:hover {
+    background-color: rgba(51, 51, 51, 1); /* Fond plein au survol */
+}
+
 nav {
     width: 100%;
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.8); /* Fond semi-transparent */
     padding: 10px;
-    text-align: center;
     position: absolute;
     top: 0;
     z-index: 10;
+    display: flex; /* Utilisation de flexbox */
+    justify-content: flex-end; /* Aligne le contenu à droite */
 }
+
 nav a {
     color: white;
     margin: 0 15px;
     text-decoration: none;
-}
-.background {
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-.content {
-    text-align: center;
-    z-index: 2;
-    color: white;
-}
-form {
-    width: 50%;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: none; /* Cache le formulaire par défaut */
-    background: white;
-    z-index: 2;
-    max-height: 80vh; /* Limite la hauteur du formulaire */
-    overflow-y: auto; /* Ajoute la possibilité de défiler */
-}
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-input[type="text"], input[type="number"], input[list], input[type="date"] {
-    width: 100%;
-    height: 30px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-button[type="submit"], button {
-    width: 100%;
-    height: 40px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-button[type="submit"]:hover, button:hover {
-    background-color: #3e8e41;
+    transition: color 0.3s ease; /* Animation de couleur */
 }
 
-button:hover {
-    background-color: #45a049; /* Couleur au survol */
-}
-
-/* Styles pour la boîte de dialogue */
-#infoDialog {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.dialog-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    text-align: center;
-}
-
-/* Style pour afficher les liens vers les PDF */
-.pdf-links {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.pdf-links a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin: 0 10px;
-}
-
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-}
-
-nav {
-    display: flex;
-    justify-content: flex-end; /* Aligne les éléments à droite */
-    padding: 10px 20px; /* Espacement autour du nav */
-    color: white;
-}
-
-nav a, nav select {
-    margin-left: 20px; /* Espace entre les éléments */
-    /* color: white;  */
-    text-decoration: none; /* Pas de soulignement */
+nav a:hover {
+    color: #4CAF50; /* Changement de couleur au survol */
 }
 
 .background {
@@ -154,18 +47,34 @@ nav a, nav select {
     flex-direction: column; /* Aligne les éléments en colonne */
     color: white; /* Couleur du texte */
     text-align: center; /* Centre le texte */
+    position: relative; /* Pour le positionnement d'éléments absolus */
 }
 
-/* Styles pour le bouton */
+.content {
+    z-index: 2;
+    text-align: center;
+    flex-grow: 1; /* Permet à la section de se développer */
+}
+
+button-container {
+    display: flex; /* Aligne les boutons en ligne */
+    justify-content: center; /* Centre les boutons */
+    margin-bottom: 20px; /* Espacement en bas */
+}
+
+
 button {
     padding: 10px 20px; /* Espacement interne */
     font-size: 16px; /* Taille de la police */
-    background-color: #4CAF50; /* Couleur de fond */
+    background-color: #4822d2; /* Couleur de fond rouge */
     color: white; /* Couleur du texte */
     border: none; /* Pas de bordure */
     border-radius: 5px; /* Coins arrondis */
     cursor: pointer; /* Curseur en pointeur */
-    margin-top: 20px; /* Espacement au-dessus du bouton */
-    max-width: 150px; /* Largeur maximale */
-    width: 100%; /* Prend toute la largeur disponible jusqu'à max-width */
+    margin: 0 10px; /* Espacement entre les boutons */
+    transition: background-color 0.3s ease; /* Animation de transition */
+}
+
+button:hover {
+    background-color: #ba1ab2; /* Couleur au survol */
 }

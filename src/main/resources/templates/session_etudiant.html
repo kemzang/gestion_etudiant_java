@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Etudiant</title>
+</head>
+<body>
+    <div>
+        <h1>Bienvenue, <span th:text="${prenom}">Prenom</span> <span th:text="${nom}">Nom</span>!</h1>
+    </div>
+    
+    <div th:if="${errorMessage}" style="color:red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div>
+        <h2>Documents</h2>
+
+        <div th:if="${attestation_scolarite}">
+            <p>Attestation de Scolarité :</p>
+            <a th:href="${attestation_scolarite}" download>
+                <button>Télécharger Attestation</button>
+            </a>
+        </div>
+
+        <div th:if="${carte_etudiant}">
+            <p>Carte d'Étudiant :</p>
+            <a th:href="${carte_etudiant}" download>
+                <button>Télécharger Carte</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Autres contenus de la page -->
+</body>
+</html>

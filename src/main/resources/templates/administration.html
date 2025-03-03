@@ -1,11 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration</title>
+    <title>Panneau d'Administration</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Hauteur totale de la page */
+            display: flex;
+            flex-direction: column; /* Pour que l'en-tête et le contenu soient empilés verticalement */
+        }
+        
+        /* Style pour l'en-tête */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px; /* Espace vertical pour un meilleur rendu */
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            flex: 1; /* Prend tout l'espace restant */
+            overflow-y: auto; /* Permet de faire défiler le contenu si nécessaire */
+        }
+        
+        .card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            flex: 1 1 calc(45% - 20px); /* Deux cartes par ligne avec un peu d'espace */
+            min-width: 200px; /* Largeur minimale pour les petites cartes */
+            max-width: 300px; /* Largeur maximale pour éviter qu'elles ne soient trop longues */
+            transition: transform 0.2s;
+            text-decoration: none; /* Pas de soulignement pour les liens */
+            color: black; /* Couleur du texte */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            cursor: pointer; /* Changement du curseur pour indiquer le clic */
+        }
+        
+        h2 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+        }
+        
+        p {
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 calc(100% - 40px); /* Une carte par ligne sur petits écrans */
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Administration</h1>
+    <header>
+        <h1>Panneau d'Administration</h1>
+        <p>Bienvenue dans le panneau d'administration. Veuillez choisir une option ci-dessous.</p>
+    </header>
+    <div class="container">
+        <a onclick="window.location.href='/faculte'" class="card">
+            <h2>Faculté</h2>
+            <p>Données importantes sur les facultés.</p>
+        </a>
+        <a href="departement.html" class="card">
+            <h2>Département</h2>
+            <p>Données importantes sur les départements.</p>
+        </a>
+        <a href="filiere.html" class="card">
+            <h2>Filière</h2>
+            <p>Données importantes sur les filières.</p>
+        </a>
+        <a href="class.html" class="card">
+            <h2>Class</h2>
+            <p>Données importantes sur Class.</p>
+        </a>
+    </div>
 </body>
 </html>

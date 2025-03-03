@@ -16,4 +16,7 @@ public interface EtudiantService {
 
     byte[][] getEtudiantPDFsByMatricule(String matricule);
 
+    public Etudiant findByUsernameAndPasswordAndRole(String matricule, String password, String role);
+
+
 }

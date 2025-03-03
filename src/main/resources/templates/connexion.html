@@ -74,11 +74,10 @@
 <body>
     <div class="container">
         <h1>Connexion</h1>
-        <form action="/connexion" method="post">
-            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-            <input type="password" name="password" placeholder="Mot de passe" required>
+        <form action="/session_etudiant" method="post">
+            <input type="text" name="matricule" required placeholder="Matricule" />
+            <input type="password" name="motpass" required placeholder="Mot de passe" />
             <select name="role" required>
-                <option value="" disabled selected>Choisir un profil</option>
                 <option value="etudiant">Étudiant</option>
                 <option value="administrateur">Administrateur</option>
             </select>
