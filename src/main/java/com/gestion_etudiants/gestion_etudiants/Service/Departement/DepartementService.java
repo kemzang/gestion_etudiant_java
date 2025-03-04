@@ -7,4 +7,6 @@ import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 public interface DepartementService {
     
     List<Departements> ListDepartement();
+    List<Departements> findByFaculteId(Long faculteId);
+    List<Departements> findAll();
 }

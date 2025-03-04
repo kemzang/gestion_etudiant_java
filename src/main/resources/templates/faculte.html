@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculte</title>
+    <title>Liste des Facultés</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1> gestion Faculte</h1>
+    <header>
+        <h1>Liste des Facultés</h1>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Boucle pour afficher les facultés -->
+            <tr th:each="faculte : ${facultes}">
+                <td th:text="${faculte.id}"></td>
+                <td th:text="${faculte.nom}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

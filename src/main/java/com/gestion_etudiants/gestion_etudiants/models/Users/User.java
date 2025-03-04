@@ -1,34 +1,34 @@
-// package com.gestion_etudiants.gestion_etudiants.models.Users;
+package com.gestion_etudiants.gestion_etudiants.models.Users;
 
-// import lombok.Getter;
-// import lombok.NoArgsConstructor;
-// import lombok.Setter;
-// import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import jakarta.persistence.*;
 
-// @Entity
-// @Table(name="User")
-// @Getter
-// @Setter
-// @NoArgsConstructor
-// public class User {
+@Entity
+@Table(name="User")
+@Getter
+@Setter
+@NoArgsConstructor
+public class User {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     @Column(length = 150)
-//     private String username;
+    @Column(length = 50)
+    private String matricule;
 
-//     @Column(length = 150)
-//     private String password;
+    @Column(length = 50)
+    private String motpass;
 
-    // @Column(length = 150)
-    // private String role;
+    @Column(length = 150)
+    private String role;
 
-//     public User(String username, String password, String role) {
-//         this.username = username;
-//         this.password = password;
-//         this.role = (role == null || role.isEmpty()) ? "etudiant" : role;
-//     }
+    public User(String matricule, String motpass, String role) {
+        this.matricule = matricule;
+        this.motpass = motpass;
+        this.role = (role == null || role.isEmpty()) ? "administrateur" : role;
+    }
     
-// }
+}

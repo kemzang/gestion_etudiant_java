@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filière</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filières</h1>
+
+    <label for="departementSelect">Sélectionnez un département :</label>
+    <select id="departementSelect" onchange="fetchFilieres()">
+        <option value="">-- Choisissez un département --</option>
+        <th:block th:each="departement : ${departements}">
+            <option th:value="${departement.id}" th:text="${departement.nom}"></option>
+        </th:block>
+    </select>
+
+    <h2>Filières Associées</h2>
+    <table border="1" id="filiereTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les filières seront ajoutées ici par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchFilieres() {
+            const departementId = document.getElementById('departementSelect').value;
+            const tbody = document.getElementById('filiereTable').querySelector('tbody');
+
+            if (departementId) {
+                try {
+                    const response = await fetch(`/filieres/departement/${departementId}`);
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des filières');
+                    }
+                    const filieres = await response.json();
+                    tbody.innerHTML = ''; // Vide le tableau avant d'ajouter de nouvelles données
+                    filieres.forEach(filiere => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${filiere.id}</td>
+                            <td>${filiere.nom}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error(error);
+                    tbody.innerHTML = '<tr><td colspan="2">Erreur lors de la récupération des filières</td></tr>';
+                }
+            } else {
+                tbody.innerHTML = ''; // Si aucun département n'est sélectionné, vide le tableau
+            }
+        }
+    </script>
+</body>
+</html>

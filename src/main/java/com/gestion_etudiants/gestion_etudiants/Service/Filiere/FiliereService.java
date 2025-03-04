@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FiliereService {
     List<Filieres> ListFiliere();
+    List<Filieres> findByDepartementId(Long departementId);
 }

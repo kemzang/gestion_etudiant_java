@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -17,7 +18,9 @@ public class FaculteController {
     private FaculteServiceImplement faculteServiceImplement;
 
     @GetMapping("/faculte") // Endpoint pour récupérer la liste des facultés
-    public List<Facultes> listFaculte() {
-        return faculteServiceImplement.ListFaculte(); // Appel à la méthode du service
+    public String listFaculte(Model model) {
+        List<Facultes> facultesList = faculteServiceImplement.ListFaculte(); // Appel à la méthode du service
+        model.addAttribute("facultes", facultesList);
+        return "faculte"; // Indique le nom de la vue
     }
 }

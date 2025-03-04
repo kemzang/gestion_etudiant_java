@@ -18,4 +18,9 @@ public class FiliereServiceImplement implements FiliereService{
     public List<Filieres> ListFiliere() {
         return filiereRepository.findAll();
     }
+
+    @Override
+    public List<Filieres> findByDepartementId(Long departementId) {
+        return filiereRepository.findByDepartementId(departementId); // Méthode à définir dans le repository
+    }
 }

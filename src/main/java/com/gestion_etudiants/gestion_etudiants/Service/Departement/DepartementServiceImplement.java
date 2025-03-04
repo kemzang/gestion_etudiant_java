@@ -18,4 +18,15 @@ public class DepartementServiceImplement implements DepartementService {
     public List<Departements> ListDepartement() {
         return departementRepository.findAll(); // Appel au repository pour récupérer tous les départements
     }
+
+
+    @Override
+    public List<Departements> findByFaculteId(Long faculteId) {
+        return departementRepository.findByFaculteId(faculteId); // Méthode à définir dans le repository
+    }
+
+    @Override
+    public List<Departements> findAll() {
+        return departementRepository.findAll(); // Implémentez la méthode findAll
+    }
 }

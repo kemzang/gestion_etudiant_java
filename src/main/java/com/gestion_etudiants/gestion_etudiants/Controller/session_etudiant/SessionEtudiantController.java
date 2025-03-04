@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl;
+import com.gestion_etudiants.gestion_etudiants.Service.User.UserServiceImplement;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
+import com.gestion_etudiants.gestion_etudiants.models.Users.User;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -17,6 +19,9 @@ public class SessionEtudiantController {
 
     @Autowired
     private EtudiantServiceImpl userService;
+
+    @Autowired
+    private UserServiceImplement usersImplement;
 
     @GetMapping("/session_etudiant")
 public String showSessionEtudiant(HttpSession session, Model model) {
@@ -35,9 +40,9 @@ public String showSessionEtudiant(HttpSession session, Model model) {
 }
 
     @PostMapping("/session_etudiant")
-    public String loginUser(@ModelAttribute Etudiant user, HttpSession session, Model model) {
+    public String loginUser(@ModelAttribute Etudiant user, HttpSession session, Model model, User users) {
         Etudiant existingUser = userService.findByUsernameAndPasswordAndRole(user.getMatricule(), user.getMotpass(), user.getRole());
-
+        User users2 = usersImplement.findByUsernameAndPasswordAndRole(users.getMatricule(), users.getMotpass(), users.getRole());
         if (existingUser != null && "etudiant".equals(user.getRole())) {
             session.setAttribute("user", existingUser); // Démarre une nouvelle session
             model.addAttribute("nom", existingUser.getNom());
@@ -47,8 +52,8 @@ public String showSessionEtudiant(HttpSession session, Model model) {
             model.addAttribute("attestation_scolarite", "/etudiants/" + user.getMatricule() + "/pdfs");
             model.addAttribute("carte_etudiant", "/etudiants-carte/" + user.getMatricule() + "/pdfs");
             return "session_etudiant"; // Renvoie à la page session_etudiant
-        } else if (existingUser != null && "administrateur".equals(user.getRole())) {
-            session.setAttribute("user", existingUser); // Démarre une nouvelle session
+        } else if (users2 != null && "administrateur".equals(users.getRole())) {
+            session.setAttribute("user", users2); // Démarre une nouvelle session
             return "redirect:/administration"; // Redirige vers la page d'administration
         } else {
             model.addAttribute("errorMessage", "Nom d'utilisateur, mot de passe ou rôle incorrect.");

@@ -1,5 +1,7 @@
 package com.gestion_etudiants.gestion_etudiants.models.Departement;
 
+import com.gestion_etudiants.gestion_etudiants.models.Faculte.Facultes;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,13 @@ public class Departements {
     @Column(length = 50, unique = true)
     private String nom;
 
-    public Departements(String nom) {
+    @ManyToOne // Indique qu'un département appartient à une faculté
+    @JoinColumn(name = "faculte_id", nullable = false) // Nom de la colonne dans la table Departement
+    private Facultes faculte; // Clé étrangère vers la faculté
+
+    public Departements(String nom, Facultes faculte) {
         this.nom = nom;
+        this.faculte = faculte; // Modifiez le constructeur
     }
 
     @Override

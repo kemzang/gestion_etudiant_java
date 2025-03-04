@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Départements par Faculté</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Départements</h1>
+
+    <label for="faculteSelect">Sélectionnez une faculté :</label>
+    <select id="faculteSelect" onchange="fetchDepartements()">
+        <option value="">-- Choisissez une faculté --</option>
+        <th:block th:each="faculte : ${facultes}">
+            <option th:value="${faculte.id}" th:text="${faculte.nom}"></option>
+        </th:block>
+    </select>
+
+    <h2>Départements Associés</h2>
+    <table border="1" id="departementTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les départements seront ajoutés ici par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        function fetchDepartements() {
+            const faculteId = $('#faculteSelect').val();
+            if (faculteId) {
+                $.ajax({
+                    url: `/departements/faculte/${faculteId}`,
+                    method: 'GET',
+                    success: function(departements) {
+                        const tbody = $('#departementTable tbody');
+                        tbody.empty(); // Vide le tableau avant d'ajouter de nouvelles données
+                        departements.forEach(function(departement) {
+                            tbody.append(`
+                                <tr>
+                                    <td>${departement.id}</td>
+                                    <td>${departement.nom}</td>
+                                </tr>
+                            `);
+                        });
+                    }
+                });
+            } else {
+                $('#departementTable tbody').empty(); // Si aucune faculté n'est sélectionnée, vide le tableau
+            }
+        }
+    </script>
+</body>
+</html>

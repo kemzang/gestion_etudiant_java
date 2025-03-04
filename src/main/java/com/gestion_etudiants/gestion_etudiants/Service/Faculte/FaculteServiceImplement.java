@@ -12,13 +12,7 @@
     
 //         private  FacuteRepository faculteRepository;
 
-       
-//     @Override
-//     public  List<Facultes> ListFaculte() {
-//         // TODO Auto-generated method stub
-//         return faculteRepository.findAll();
-//     }
-// }
+
 
 package com.gestion_etudiants.gestion_etudiants.Service.Faculte;
 

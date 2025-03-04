@@ -4,8 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.gestion_etudiants.gestion_etudiants.models.Filiere.Filieres;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
+import com.gestion_etudiants.gestion_etudiants.models.Filiere.Filieres;
+import com.gestion_etudiants.gestion_etudiants.Service.Departement.DepartementService;
 import com.gestion_etudiants.gestion_etudiants.Service.Filiere.FiliereServiceImplement;
 
 @Controller
@@ -14,7 +20,29 @@ public class FiliereController {
     @Autowired
     private FiliereServiceImplement filiereServiceImplement;
 
+    @Autowired
+    private DepartementService departementService;
+
+    @GetMapping("/filieres")
+    public String showFilierePage(Model model) {
+        List<Departements> departements = departementService.findAll(); // Récupérer tous les départements
+        model.addAttribute("departements", departements);
+        return "filiere"; // Nom du template
+    }
+
+    @GetMapping("/filieres/departement/{id}")
+    @ResponseBody
+    public List<Filieres> getFilieresByDepartement(@PathVariable Long id) {
+        List<Filieres> filieres = filiereServiceImplement.findByDepartementId(id); 
+        if (filieres.isEmpty()) {
+            // Gérer le cas où aucune filière n'est trouvée, par exemple, retourner une liste vide ou un message
+        }
+        return filieres; // Récupérer les filières par ID de département
+    }
+
+    @GetMapping("/filieres/list")
+    @ResponseBody
     public List<Filieres> listFiliere() {
-        return filiereServiceImplement.ListFiliere();
+        return filiereServiceImplement.ListFiliere(); // Renommer en camelCase si nécessaire
     }
 }
