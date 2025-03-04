@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Départements par Faculté</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         table {
@@ -18,6 +19,37 @@
         th {
             background-color: #4CAF50;
             color: white;
+        }
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -38,6 +70,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -45,29 +78,193 @@
         </tbody>
     </table>
 
+    <button id="openModal">Ajouter un département</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Ajouter un département</h2>
+            <label for="departementNom">Nom du département:</label>
+            <input type="text" id="departementNom" required>
+            <label for="faculteSelectModal">Sélectionnez une faculté:</label>
+            <select id="faculteSelectModal">
+                <th:block th:each="faculte : ${facultes}">
+                    <option th:value="${faculte.id}" th:text="${faculte.nom}"></option>
+                </th:block>
+            </select>
+            <button id="submitDepartement">Ajouter</button>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Modifier un département</h2>
+            <label for="editDepartementNom">Nom du département:</label>
+            <input type="text" id="editDepartementNom" required>
+            <label for="editFaculteSelectModal">Sélectionnez une faculté:</label>
+            <select id="editFaculteSelectModal">
+                <th:block th:each="faculte : ${facultes}">
+                    <option th:value="${faculte.id}" th:text="${faculte.nom}"></option>
+                </th:block>
+            </select>
+            <button id="submitEditDepartement">Modifier</button>
+        </div>
+    </div>
+
     <script>
         function fetchDepartements() {
-            const faculteId = $('#faculteSelect').val();
-            if (faculteId) {
-                $.ajax({
-                    url: `/departements/faculte/${faculteId}`,
-                    method: 'GET',
-                    success: function(departements) {
-                        const tbody = $('#departementTable tbody');
-                        tbody.empty(); // Vide le tableau avant d'ajouter de nouvelles données
-                        departements.forEach(function(departement) {
-                            tbody.append(`
-                                <tr>
-                                    <td>${departement.id}</td>
-                                    <td>${departement.nom}</td>
-                                </tr>
-                            `);
-                        });
-                    }
+    const faculteId = $('#faculteSelect').val();
+    console.log("Faculté ID sélectionnée:", faculteId); // Ajoutez ceci pour le débogage
+    
+    if (faculteId) {
+        $.ajax({
+            url: `/departements/faculte/${faculteId}`,
+            method: 'GET',
+            success: function(departements) {
+                const tbody = $('#departementTable tbody');
+                tbody.empty(); // Vide le tableau avant d'ajouter de nouvelles données
+                departements.forEach(function(departement) {
+                    tbody.append(`
+                        <tr data-id="${departement.id}">
+                            <td>${departement.id}</td>
+                            <td>${departement.nom}</td>
+                            <td>
+    <i class="fas fa-edit" onclick="showEditModal(${departement.id}, '${departement.nom}', ${departement.faculte.id})" style="cursor: pointer; margin-right: 10px;" title="Modifier"></i>
+    <i class="fas fa-trash" onclick="deleteDepartement(${departement.id})" style="cursor: pointer;" title="Supprimer"></i>
+</td>
+                        </tr>
+                    `);
                 });
-            } else {
-                $('#departementTable tbody').empty(); // Si aucune faculté n'est sélectionnée, vide le tableau
+            },
+            error: function(xhr, status, error) {
+                console.error("Erreur lors de la récupération des départements:", error);
             }
+        });
+    } else {
+        $('#departementTable tbody').empty(); // Si aucune faculté n'est sélectionnée, vide le tableau
+    }
+}
+
+        $('#openModal').click(function() {
+            $('#myModal').show();
+        });
+
+        function closeModal() {
+            $('#myModal').hide();
+            $('#departementNom').val(''); // Réinitialiser le champ
+        }
+
+
+$('#submitDepartement').click(function() {
+    const nom = $('#departementNom').val();
+    const faculteId = $('#faculteSelectModal').val();
+
+    const departementData = {
+        nom: nom,
+        faculte: {
+            id: faculteId
+        }
+    };
+
+    $.ajax({
+        url: '/departements/ajouter',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(departementData),
+        success: function(departement) {
+            const tbody = $('#departementTable tbody');
+            tbody.append(`
+                <tr data-id="${departement.id}">
+                    <td>${departement.id}</td>
+                    <td>${departement.nom}</td>
+                    <td>
+                        <i class="fas fa-edit" onclick="showEditModal(${departement.id}, '${departement.nom}', ${departement.faculte.id})" style="cursor: pointer; margin-right: 10px;" title="Modifier"></i>
+                        <i class="fas fa-trash" onclick="deleteDepartement(${departement.id})" style="cursor: pointer;" title="Supprimer"></i>
+                    </td>
+                </tr>
+            `);
+            closeModal();
+        },
+        error: function(xhr, status, error) {
+            console.error("Erreur lors de l'ajout du département:", error);
+            alert("Erreur lors de l'ajout du département: " + xhr.responseText);
+        }
+    });
+});
+
+        function showEditModal(id, nom) {
+            $('#departementNom').val(nom);
+            $('#myModal').show(); // Utilisez le même modal pour l'édition
+            $('#submitDepartement').off('click').on('click', function() {
+                editDepartement(id);
+            });
+        }
+
+        // function editDepartement(id) {
+        //     const nom = $('#departementNom').val();
+        //     const faculteId = $('#faculteSelectModal').val();
+
+        //     $.ajax({
+        //         url: `/departements/modifier/${id}`,
+        //         method: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({ nom: nom, faculteId: faculteId }),
+        //         success: function() {
+        //             const row = $('#departementTable tbody tr[data-id="' + id + '"]');
+        //             row.children('td:nth-child(2)').text(nom); // Mettre à jour le nom
+        //             closeModal();
+        //         }
+        //     });
+        // }
+
+        function showEditModal(id, nom, faculteId) {
+    $('#editDepartementNom').val(nom);
+    $('#editFaculteSelectModal').val(faculteId); // Mettre à jour le select avec la faculté actuelle
+    $('#editModal').show(); // Ouvrir le modal d'édition
+
+    $('#submitEditDepartement').off('click').on('click', function() {
+        editDepartement(id);
+    });
+}
+
+function closeEditModal() {
+    $('#editModal').hide();
+    $('#editDepartementNom').val(''); // Réinitialiser le champ
+}
+
+function editDepartement(id) {
+    const nom = $('#editDepartementNom').val();
+    const faculteId = $('#editFaculteSelectModal').val();
+
+    $.ajax({
+        url: `/departements/modifier/${id}`,
+        method: 'PUT', // Utilisez PUT pour la mise à jour
+        contentType: 'application/json',
+        data: JSON.stringify({ 
+            nom: nom, 
+            faculte: { id: faculteId } // Assurez-vous que la faculté est correctement formatée
+        }),
+        success: function() {
+            const row = $('#departementTable tbody tr[data-id="' + id + '"]');
+            row.children('td:nth-child(2)').text(nom); // Mettre à jour le nom
+            closeEditModal();
+        },
+        error: function(xhr, status, error) {
+            console.error("Erreur lors de la modification du département:", error);
+            alert("Erreur lors de la modification du département: " + xhr.responseText);
+        }
+    });
+}
+
+        function deleteDepartement(id) {
+            $.ajax({
+                url: `/departements/supprimer/${id}`,
+                method: 'DELETE',
+                success: function() {
+                    $('#departementTable tbody tr[data-id="' + id + '"]').remove();
+                }
+            });
         }
     </script>
 </body>

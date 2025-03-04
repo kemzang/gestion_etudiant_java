@@ -9,4 +9,7 @@ public interface DepartementService {
     List<Departements> ListDepartement();
     List<Departements> findByFaculteId(Long faculteId);
     List<Departements> findAll();
+    Departements save(Departements departement);
+    void update(Long id, Departements departement);
+    void delete(Long id);
 }

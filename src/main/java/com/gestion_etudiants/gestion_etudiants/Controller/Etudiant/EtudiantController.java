@@ -88,9 +88,6 @@ public String enregistrerEtudiant(@RequestParam String nom,
 
     // Retournez la vue d'accueil
     return "index";
-
-    // Retournez une réponse de confirmation
-    // return ResponseEntity.ok("Étudiant enregistré avec succès : " + savedEtudiant.getNom() + " " + savedEtudiant.getPrenom());
 }
 
 }

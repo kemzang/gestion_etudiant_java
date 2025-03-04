@@ -9,3 +9,4 @@ public interface DepartementRepository extends JpaRepository<Departements, Long>
     
     List<Departements> findByFaculteId(Long faculteId);
 }
+

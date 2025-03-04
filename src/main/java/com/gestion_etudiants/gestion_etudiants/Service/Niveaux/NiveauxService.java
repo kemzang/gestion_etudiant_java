@@ -8,5 +8,7 @@ public interface NiveauxService {
     
     List<Niveaux> ListNiveaux();
     List<Niveaux> findByFiliereId(Long filiereId);
-
+    Niveaux ajouterNiveau(Niveaux niveau);
+    Niveaux modifierNiveau(Long id, Niveaux niveau);
+    void supprimerNiveau(Long id);
 }

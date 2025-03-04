@@ -30,7 +30,22 @@ public class FaculteServiceImplement implements FaculteService {
     private FacuteRepository faculteRepository; // Injection du repository
 
     @Override
+    public void saveFaculte(Facultes faculte) {
+        faculteRepository.save(faculte); // Sauvegarde la faculté dans la base de données
+    }
+
+    @Override
     public List<Facultes> ListFaculte() {
         return faculteRepository.findAll(); // Appel au repository pour récupérer toutes les facultés
+    }
+
+    @Override
+    public void deleteFaculte(Long id) {
+        faculteRepository.deleteById(id); // Suppression de la faculté par ID
+    }
+
+    @Override
+    public Facultes findById(Long id) {
+        return faculteRepository.findById(id).orElse(null); // Retourne la faculté ou null si non trouvée
     }
 }

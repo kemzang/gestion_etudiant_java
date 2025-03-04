@@ -23,4 +23,20 @@ public class NiveauxServiceImplement implements NiveauxService {
     public List<Niveaux> findByFiliereId(Long filiereId) {
         return niveauxRepository.findByFiliereId(filiereId); // Assurez-vous que c'est le bon nom de méthode
     }
+
+    @Override
+    public Niveaux ajouterNiveau(Niveaux niveau) {
+        return niveauxRepository.save(niveau);
+    }
+
+    @Override
+    public Niveaux modifierNiveau(Long id, Niveaux niveau) {
+        niveau.setId(id);
+        return niveauxRepository.save(niveau);
+    }
+
+    @Override
+    public void supprimerNiveau(Long id) {
+        niveauxRepository.deleteById(id);
+    }
 }

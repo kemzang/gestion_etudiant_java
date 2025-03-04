@@ -29,4 +29,8 @@ public class Niveaux {
         this.niveau = niveau;
         this.filiere = filiere;
     }
+
+    public String getNiveauString() {
+        return "Niveau " + niveau;
+    }
 }

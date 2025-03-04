@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filière</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         table {
             width: 100%;
@@ -17,6 +19,37 @@
         th {
             background-color: #4CAF50;
             color: white;
+        }
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -37,12 +70,47 @@
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <!-- Les filières seront ajoutées ici par JavaScript -->
         </tbody>
     </table>
+
+    <button id="openModal">Ajouter une filière</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Ajouter une filière</h2>
+            <label for="filiereNom">Nom de la filière:</label>
+            <input type="text" id="filiereNom" required>
+            <label for="departementSelectModal">Sélectionner un département:</label>
+            <select id="departementSelectModal">
+                <th:block th:each="departement : ${departements}">
+                    <option th:value="${departement.id}" th:text="${departement.nom}"></option>
+                </th:block>
+            </select>
+            <button id="submitFiliere">Ajouter</button>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Modifier une filière</h2>
+            <label for="editFiliereNom">Nom de la filière:</label>
+            <input type="text" id="editFiliereNom" required>
+            <label for="editDepartementSelectModal">Sélectionner un département:</label>
+            <select id="editDepartementSelectModal">
+                <th:block th:each="departement : ${departements}">
+                    <option th:value="${departement.id}" th:text="${departement.nom}"></option>
+                </th:block>
+            </select>
+            <button id="submitEditFiliere">Modifier</button>
+        </div>
+    </div>
 
     <script>
         async function fetchFilieres() {
@@ -59,19 +127,123 @@
                     tbody.innerHTML = ''; // Vide le tableau avant d'ajouter de nouvelles données
                     filieres.forEach(filiere => {
                         const row = document.createElement('tr');
+                        row.setAttribute('data-id', filiere.id);
                         row.innerHTML = `
                             <td>${filiere.id}</td>
                             <td>${filiere.nom}</td>
+                            <td>
+                                <i class="fas fa-edit" onclick="showEditModal(${filiere.id}, '${filiere.nom}', ${filiere.departement.id})" style="cursor: pointer; margin-right: 10px;" title="Modifier"></i>
+                                <i class="fas fa-trash" onclick="deleteFiliere(${filiere.id})" style="cursor: pointer;" title="Supprimer"></i>
+                            </td>
                         `;
                         tbody.appendChild(row);
                     });
                 } catch (error) {
                     console.error(error);
-                    tbody.innerHTML = '<tr><td colspan="2">Erreur lors de la récupération des filières</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="3">Erreur lors de la récupération des filières</td></tr>';
                 }
             } else {
                 tbody.innerHTML = ''; // Si aucun département n'est sélectionné, vide le tableau
             }
+        }
+
+        $('#openModal').click(function() {
+            $('#myModal').show();
+        });
+
+        function closeModal() {
+            $('#myModal').hide();
+            $('#filiereNom').val('');
+        }
+
+        $('#submitFiliere').click(function() {
+            const nom = $('#filiereNom').val();
+            const departementId = $('#departementSelectModal').val();
+
+            const filiereData = {
+                nom: nom,
+                departement: {
+                    id: departementId
+                }
+            };
+
+            $.ajax({
+                url: '/filiere/ajouter',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(filiereData),
+                success: function(filiere) {
+                    const tbody = $('#filiereTable tbody');
+                    tbody.append(`
+                        <tr data-id="${filiere.id}">
+                            <td>${filiere.id}</td>
+                            <td>${filiere.nom}</td>
+                            <td>
+                                <i class="fas fa-edit" onclick="showEditModal(${filiere.id}, '${filiere.nom}', ${filiere.departement.id})" style="cursor: pointer; margin-right: 10px;" title="Modifier"></i>
+                                <i class="fas fa-trash" onclick="deleteFiliere(${filiere.id})" style="cursor: pointer;" title="Supprimer"></i>
+                            </td>
+                        </tr>
+                    `);
+                    closeModal();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erreur lors de l'ajout de la filière:", error);
+                    alert("Erreur lors de l'ajout de la filière: " + xhr.responseText);
+                }
+            });
+        });
+
+        function showEditModal(id, nom, departementId) {
+            $('#editFiliereNom').val(nom);
+            $('#editDepartementSelectModal').val(departementId);
+            $('#editModal').show();
+
+            $('#submitEditFiliere').off('click').on('click', function() {
+                editFiliere(id);
+            });
+        }
+
+        function closeEditModal() {
+            $('#editModal').hide();
+            $('#editFiliereNom').val('');
+        }
+
+        function editFiliere(id) {
+            const nom = $('#editFiliereNom').val();
+            const departementId = $('#editDepartementSelectModal').val();
+
+            $.ajax({
+                url: `/filiere/modifier/${id}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nom: nom,
+                    departement: { id: departementId }
+                }),
+                success: function() {
+                    const row = $('#filiereTable tbody tr[data-id="' + id + '"]');
+                    row.children('td:nth-child(2)').text(nom); // Mettre à jour le nom
+                    closeEditModal();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erreur lors de la modification de la filière:", error);
+                    alert("Erreur lors de la modification de la filière: " + xhr.responseText);
+                }
+            });
+        }
+
+        function deleteFiliere(id) {
+            $.ajax({
+                url: `/filiere/supprimer/${id}`,
+                method: 'DELETE',
+                success: function() {
+                    $('#filiereTable tbody tr[data-id="' + id + '"]').remove();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erreur lors de la suppression de la filière:", error);
+                    alert("Erreur lors de la suppression de la filière: " + xhr.responseText);
+                }
+            });
         }
     </script>
 </body>
