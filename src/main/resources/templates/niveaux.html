@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveaux</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Niveaux par Filière</h1>
+
+    <label for="filiereSelect">Sélectionnez une filière :</label>
+    <select id="filiereSelect" onchange="fetchNiveaux()">
+        <option value="">-- Choisissez une filière --</option>
+        <th:block th:each="niveau : ${niveaux}">
+            <option th:value="${niveau.id}" th:text="${niveau.niveau}"></option>
+        </th:block>
+    </select>
+
+    <h2>Niveaux Associés</h2>
+    <table border="1" id="niveauTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Niveau</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les niveaux seront ajoutés ici par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchNiveaux() {
+            const filiereId = document.getElementById('filiereSelect').value;
+            const tbody = document.getElementById('niveauTable').querySelector('tbody'); // Correction ici
+
+            if (filiereId) {
+                try {
+                    const response = await fetch(`/niveaux/filieres/${filiereId}`);
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des niveaux');
+                    }
+                    const niveaux = await response.json();
+                    tbody.innerHTML = ''; // Vide le tableau avant d'ajouter de nouvelles données
+                    niveaux.forEach(niveau => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${niveau.id}</td>
+                            <td>${niveau.niveau}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error(error);
+                    tbody.innerHTML = '<tr><td colspan="2">Erreur lors de la récupération des niveaux</td></tr>';
+                }
+            } else {
+                tbody.innerHTML = ''; // Si aucune filière n'est sélectionnée, vide le tableau
+            }
+        }
+    </script>
+</body>
+</html>
