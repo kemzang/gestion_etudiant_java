@@ -33,7 +33,7 @@ public class pdfService {
             
             // Colonne de gauche avec le texte
             String leftText = "REPUBLIQUE DU CAMEROUN\n" +
-                              "Paix -- Patrie\n" +
+                              "Paix -Travail- Patrie\n" +
                               "UNIVERSITÉ DE YAOUNDÉ I\n" +
                               "FACULTE DES SCIENCES B.P. 812 Yaoundé,\n" +
                               "Tél/Fax. : (237) 22.23.44.96";
@@ -59,11 +59,8 @@ public class pdfService {
                                "REPUBLIC OF CAMEROON\n" +
                                "Peace — Work — Fatherland\n" +
                                "UNIVERSITY OF YAOUNDE I\n" +
-                               "FACULTY OF SCIENCE\n" +
-                               "P.O.Box 812 Yaounde,\n" +
-                               "Tel/Fax. : (237) 22.23.44.96\n" +
-                               "Vice-Dean in charge of Students Affairs\n" +
-                               "NO UFS/VDSSE/24";
+                               "FACULTY OF SCIENCE P.O.Box 812 Yaounde\n" +
+                               "Tel/Fax. : (237) 22.23.44.96\n";
             table.addCell(new Paragraph(rightText)
                     .setFontSize(12)
                     .setTextAlignment(TextAlignment.LEFT)
@@ -73,7 +70,7 @@ public class pdfService {
             document.add(table);
 
             // Titre de l'attestation
-            document.add(new Paragraph("ATTESTATION D'INSCRIPTION")
+            document.add(new Paragraph("ATTESTATION DE SCOLARITE")
                     .setFontSize(18)
                     .setTextAlignment(TextAlignment.CENTER));
 

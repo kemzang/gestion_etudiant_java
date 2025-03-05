@@ -1,9 +1,9 @@
-package com.gestion_etudiants.gestion_etudiants.Service.User;
+package com.gestion_etudiants.gestion_etudiants.Service.Administrateur;
 
 import org.springframework.stereotype.Service;
 
-import com.gestion_etudiants.gestion_etudiants.Repository.User.UserRepository;
-import com.gestion_etudiants.gestion_etudiants.models.Users.User;
+import com.gestion_etudiants.gestion_etudiants.Repository.Administrateur.UserRepository;
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 
 import lombok.AllArgsConstructor;
 

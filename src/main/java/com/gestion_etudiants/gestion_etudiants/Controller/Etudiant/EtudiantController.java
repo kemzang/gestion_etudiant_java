@@ -2,12 +2,16 @@ package com.gestion_etudiants.gestion_etudiants.Controller.Etudiant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl;
 import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
@@ -31,70 +35,6 @@ public class EtudiantController {
 
     @Autowired
     private pdfCarteEtudiantService pdfCarteEtudiantService;
-
-//     @PostMapping("/enregistrer")
-// // public ResponseEntity<String> enregistrerEtudiant(@RequestParam String nom,
-// public String enregistrerEtudiant(@RequestParam String nom,
-//                                                    @RequestParam String prenom,
-//                                                    @RequestParam String dateNaissance,
-//                                                    @RequestParam String lieuNaissance,
-//                                                    @RequestParam String matricule,
-//                                                    @RequestParam String anneeAcademique,
-//                                                    @RequestParam Facultes faculte,
-//                                                    @RequestParam Departements departement,
-//                                                    @RequestParam Filieres filiere,
-//                                                    @RequestParam String motpass,
-//                                                    @RequestParam Niveaux niveau,
-//                                                    @RequestParam int payement,
-//                                                    @RequestParam("photo") MultipartFile photo,
-//                                                    @RequestParam("default_logo") MultipartFile photoDefaut,
-//                                                    Model model) throws IOException {
-//     Etudiant etudiant = new Etudiant();
-//     etudiant.setNom(nom);
-//     etudiant.setPrenom(prenom);
-//     etudiant.setDateNaissance(dateNaissance);
-//     etudiant.setLieuNaissance(lieuNaissance);
-//     etudiant.setMatricule(matricule);
-//     etudiant.setAnneeAcademique(anneeAcademique);
-//     etudiant.setFaculte(faculte);
-//     etudiant.setDepartement(departement);
-//     etudiant.setFiliere(filiere);
-//     etudiant.setMotpass(motpass);
-//     etudiant.setNiveau(niveau);
-//     etudiant.setPayement(payement);
-
-//     // Stockez la photo dans le champ photo
-//     try {
-//         etudiant.setPhoto(photo.getBytes());
-//     } catch (IOException e) {
-//         System.err.println("Erreur lors du chargement de la photo : " + e.getMessage());
-//     }
-
-//     try {
-//         etudiant.setPhotoDefaut(photoDefaut.getBytes());
-//     } catch (IOException e) {
-//         System.err.println("Erreur lors du chargement du logo : " + e.getMessage());
-//     }
-
-
-//     // etudiant.setPhotoDefaut(defaultImage);
-
-//     // Générez les PDF
-//     byte[] pdfAttestationScolarite = pdfService.generatePdf(etudiant);
-//     byte[] pdfCarteEtudiant = pdfCarteEtudiantService.generateMembershipCard(etudiant);
-
-//     // Stockez les PDF dans les champs correspondants
-//     etudiant.setPdfAttestationScolarite(pdfAttestationScolarite);
-//     etudiant.setPdfCarteEtudiant(pdfCarteEtudiant);
-
-//     // Enregistrez l'étudiant dans la base de données
-//     Etudiant savedEtudiant = etudiantService.createEtudiant(etudiant);
-
-//     model.addAttribute("message", "Étudiant enregistré avec succès : " + savedEtudiant.getNom() + " " + savedEtudiant.getPrenom());
-
-//     // Retournez la vue d'accueil
-//     return "index";
-// }
 
 @PostMapping("/enregistrer")
 public String enregistrerEtudiant(@RequestParam String nom,
@@ -168,4 +108,32 @@ public String enregistrerEtudiant(@RequestParam String nom,
     // Retournez la vue d'accueil
     return "index";
 }
+
+@GetMapping("/etudiants/{matricule}/pdfs")
+public ResponseEntity<byte[]> getEtudiantPDFs(@PathVariable String matricule) throws IOException {
+    byte[] pdf = etudiantService.getEtudiantPDFByMatricule(matricule);
+    if (pdf == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.setContentDispositionFormData("inline", "attestation_scolarite.pdf");  // Change 'attachment' to 'inline'
+
+    return ResponseEntity.ok().headers(headers).body(pdf);
+}
+
+@GetMapping("/etudiants-carte/{matricule}/pdfs")
+    public ResponseEntity<byte[]> getEtudiantPDFByCarteEtudiant(@PathVariable String matricule) throws IOException {
+        byte[] pdf = etudiantService.getEtudiantPDFByCarteEtudiant(matricule);
+        if (pdf == null) {
+            return ResponseEntity.notFound().build();
+        }
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "carte_etudiant.pdf");
+    
+        return ResponseEntity.ok().headers(headers).body(pdf);
+    }
 }

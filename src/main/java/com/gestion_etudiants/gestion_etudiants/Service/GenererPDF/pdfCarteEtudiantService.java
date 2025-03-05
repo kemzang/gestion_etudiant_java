@@ -33,19 +33,19 @@ public class pdfCarteEtudiantService {
                     .setBold();
             document.add(title);
 
-            // Créer une table avec 2 colonnes
+            // Créer une table avec 2 colonnes sans bordures
             Table table = new Table(2);
-            table.setWidth(UnitValue.createPercentValue(100)); // 100% de la largeur de la page
+            table.setWidth(UnitValue.createPercentValue(80)); // 100% de la largeur de la page
 
             // Ajouter l'image de l'étudiant
             byte[] imageBytes = etudiant.getPhoto(); // Assurez-vous que cette méthode retourne un tableau d'octets
             if (imageBytes != null) {
                 Image image = new Image(ImageDataFactory.create(imageBytes));
-                image.setWidth(UnitValue.createPercentValue(30)); // Ajuster la largeur de l'image
-                table.addCell(image); // Image dans la première colonne
+                image.setWidth(UnitValue.createPercentValue(50)); // Ajuster la largeur de l'image
+                table.addCell(image.setBorder(null)); // Image dans la première colonne sans bordure
             } else {
                 System.err.println("Erreur : l'image de l'étudiant est nulle.");
-                table.addCell(new Paragraph("Image non disponible").setTextAlignment(TextAlignment.CENTER));
+                table.addCell(new Paragraph("Image non disponible").setTextAlignment(TextAlignment.CENTER).setBorder(null));
             }
 
             // Créer un Div pour les informations
@@ -57,8 +57,8 @@ public class pdfCarteEtudiantService {
                     .append("ANNÉE ACADÉMIQUE : ").append(etudiant.getAnneeAcademique()).append("\n");
 
             // Ajouter les informations de l'étudiant
-            Paragraph infoParagraph = new Paragraph(infoText.toString()).setBold();
-            table.addCell(infoParagraph); // Informations dans la deuxième colonne
+            Paragraph infoParagraph = new Paragraph(infoText.toString()).setBold().setTextAlignment(TextAlignment.LEFT);
+            table.addCell(infoParagraph.setBorder(null)); // Informations dans la deuxième colonne sans bordure
 
             // Ajouter la table au document
             document.add(table);

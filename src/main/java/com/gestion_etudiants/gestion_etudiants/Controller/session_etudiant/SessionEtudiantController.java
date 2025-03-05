@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.gestion_etudiants.gestion_etudiants.Service.Administrateur.UserServiceImplement;
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl;
-import com.gestion_etudiants.gestion_etudiants.Service.User.UserServiceImplement;
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
-import com.gestion_etudiants.gestion_etudiants.models.Users.User;
 
 import jakarta.servlet.http.HttpSession;
 

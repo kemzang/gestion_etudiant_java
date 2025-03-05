@@ -201,23 +201,6 @@ $('#submitDepartement').click(function() {
             });
         }
 
-        // function editDepartement(id) {
-        //     const nom = $('#departementNom').val();
-        //     const faculteId = $('#faculteSelectModal').val();
-
-        //     $.ajax({
-        //         url: `/departements/modifier/${id}`,
-        //         method: 'POST',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({ nom: nom, faculteId: faculteId }),
-        //         success: function() {
-        //             const row = $('#departementTable tbody tr[data-id="' + id + '"]');
-        //             row.children('td:nth-child(2)').text(nom); // Mettre à jour le nom
-        //             closeModal();
-        //         }
-        //     });
-        // }
-
         function showEditModal(id, nom, faculteId) {
     $('#editDepartementNom').val(nom);
     $('#editFaculteSelectModal').val(faculteId); // Mettre à jour le select avec la faculté actuelle

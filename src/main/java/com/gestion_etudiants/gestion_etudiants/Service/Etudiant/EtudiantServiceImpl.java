@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion_etudiants.gestion_etudiants.Repository.EtudiantRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Departement.DepartementRepository;
+import com.gestion_etudiants.gestion_etudiants.Repository.Etudiant.EtudiantRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Faculte.FacuteRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Filiere.FiliereRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Niveaux.NiveauxRepository;

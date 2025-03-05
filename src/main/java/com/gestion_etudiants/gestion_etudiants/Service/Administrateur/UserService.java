@@ -1,6 +1,6 @@
-package com.gestion_etudiants.gestion_etudiants.Service.User;
+package com.gestion_etudiants.gestion_etudiants.Service.Administrateur;
 
-import com.gestion_etudiants.gestion_etudiants.models.Users.User;
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 
 public interface UserService {
     

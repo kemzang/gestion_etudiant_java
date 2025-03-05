@@ -49,13 +49,6 @@ public class DepartementController {
         return departementServiceImplement.ListDepartement();
     }
 
-    // Ajouter un nouveau département
-    // @PostMapping("/departements/ajouter")
-    // public ResponseEntity<Departements> addDepartement(@RequestBody Departements departement) {
-    //     Departements savedDepartement = departementServiceImplement.save(departement);
-    //     return ResponseEntity.ok(savedDepartement);
-    // }
-
     @PostMapping("/departements/ajouter")
     public ResponseEntity<Departements> addDepartement(@RequestBody Departements departement) {
         try {

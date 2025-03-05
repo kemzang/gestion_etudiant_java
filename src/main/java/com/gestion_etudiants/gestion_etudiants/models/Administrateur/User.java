@@ -1,4 +1,4 @@
-package com.gestion_etudiants.gestion_etudiants.models.Users;
+package com.gestion_etudiants.gestion_etudiants.models.Administrateur;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
