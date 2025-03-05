@@ -126,11 +126,13 @@ package com.gestion_etudiants.gestion_etudiants.Controller.Inscription;
 import com.gestion_etudiants.gestion_etudiants.Service.Faculte.FaculteServiceImplement; // Importer le service
 import com.gestion_etudiants.gestion_etudiants.Service.Departement.DepartementService; // Service pour les départements
 import com.gestion_etudiants.gestion_etudiants.Service.Filiere.FiliereService; // Service pour les filières
+import com.gestion_etudiants.gestion_etudiants.Service.Niveaux.NiveauxServiceImplement;
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl; // Service pour les étudiants
 import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 import com.gestion_etudiants.gestion_etudiants.models.Faculte.Facultes;
 import com.gestion_etudiants.gestion_etudiants.models.Filiere.Filieres;
+import com.gestion_etudiants.gestion_etudiants.models.Niveaux.Niveaux;
 
 import java.util.List;
 
@@ -156,15 +158,20 @@ public class InscriptionController {
     @Autowired
     private EtudiantServiceImpl etudiantService; // Injection du service des étudiants
 
+    @Autowired
+    private NiveauxServiceImplement niveauxServiceImplement;
+
     @GetMapping("/inscription")
     public String showInscriptionForm(Model model) {
         List<Facultes> facultes = faculteService.ListFaculte(); // Récupère toutes les facultés
         List<Departements> departements = departementService.ListDepartement(); // Récupère tous les départements
         List<Filieres> filieres = filiereService.ListFiliere(); // Récupère toutes les filières
+        List<Niveaux> niveauxs = niveauxServiceImplement.ListNiveaux();
 
         model.addAttribute("facultes", facultes); // Ajoute la liste au modèle
         model.addAttribute("departements", departements);
         model.addAttribute("filieres", filieres);
+        model.addAttribute("niveaux", niveauxs);
         model.addAttribute("message", "Bienvenue sur la page d'inscription");
         model.addAttribute("etudiant", new Etudiant()); // Ajoute un nouvel objet Etudiant pour le formulaire
 

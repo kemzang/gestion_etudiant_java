@@ -30,6 +30,11 @@ public class Niveaux {
         this.filiere = filiere;
     }
 
+    @Override
+    public String toString() {
+        return "Niveau " + niveau; // Retourne une représentation lisible du niveau
+    }
+
     public String getNiveauString() {
         return "Niveau " + niveau;
     }

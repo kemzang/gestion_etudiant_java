@@ -2,19 +2,42 @@ package com.gestion_etudiants.gestion_etudiants.Service.Etudiant;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion_etudiants.gestion_etudiants.Repository.EtudiantRepository;
+import com.gestion_etudiants.gestion_etudiants.Repository.Departement.DepartementRepository;
+import com.gestion_etudiants.gestion_etudiants.Repository.Faculte.FacuteRepository;
+import com.gestion_etudiants.gestion_etudiants.Repository.Filiere.FiliereRepository;
+import com.gestion_etudiants.gestion_etudiants.Repository.Niveaux.NiveauxRepository;
+import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
+import com.gestion_etudiants.gestion_etudiants.models.Faculte.Facultes;
+import com.gestion_etudiants.gestion_etudiants.models.Filiere.Filieres;
+import com.gestion_etudiants.gestion_etudiants.models.Niveaux.Niveaux;
+
 
 import lombok.AllArgsConstructor;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+// @AllArgsConstructor
 public class EtudiantServiceImpl implements EtudiantService {
 
-    private final EtudiantRepository etudiantRepository;
+    @Autowired
+    private EtudiantRepository etudiantRepository;
+
+    @Autowired
+    private FacuteRepository faculteRepository;
+
+    @Autowired
+    private DepartementRepository departementRepository;
+
+    @Autowired
+    private FiliereRepository filiereRepository;
+
+    @Autowired
+    private NiveauxRepository niveauRepository;
     
     @Override
     public Etudiant createEtudiant(Etudiant etudiant) {
@@ -87,6 +110,26 @@ public class EtudiantServiceImpl implements EtudiantService {
         } else {
             return null; // Or throw an exception if the student doesn't exist
         }
+    }
+
+    public Facultes findFaculteById(Long id) {
+        return faculteRepository.findById(id)
+                                 .orElseThrow(() -> new RuntimeException("Faculté non trouvée"));
+    }
+
+    public Departements findDepartementById(Long id) {
+        return departementRepository.findById(id)
+                                     .orElseThrow(() -> new RuntimeException("Département non trouvé"));
+    }
+
+    public Filieres findFiliereById(Long id) {
+        return filiereRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Filière non trouvée"));
+    }
+
+    public Niveaux findNiveauById(Long id) {
+        return niveauRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Niveau non trouvé"));
     }
     
 }

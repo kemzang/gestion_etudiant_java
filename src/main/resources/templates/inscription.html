@@ -1,252 +1,60 @@
-<!-- <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="password"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        select:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .link {
-            margin-top: 15px;
-            display: block;
-            color: #007bff;
-            text-decoration: none;
-        }
-        .link:hover {
-            text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .step {
-            display: none; /* Cache toutes les étapes par défaut */
-        }
-        .step.active {
-            display: block; /* Affiche seulement l'étape active */
-        }
-    </style>
-    <script src="script.js"></script>
-    
-</head>
-<body>
-    <div class="container">
-        <h1>Inscription</h1>
-        <form id="registrationForm" action="/enregistrer" method="post" enctype="multipart/form-data">
-            <div class="step active">
-                <h2>Étape 1: Informations Personnelles</h2>
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" required>
-    
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" name="prenom" required>
-    
-                <label for="genre">Genre:</label>
-                <select id="genre" name="genre" required>
-                    <option value="">Sélectionnez...</option>
-                    <option value="masculin">Masculin</option>
-                    <option value="feminin">Féminin</option>
-                    <option value="autre">Autre</option>
-                </select>
-
-                <label for="dateNaissance">Mot de passe:</label>
-                <input type="text" id="motpass" name="motpass" required>
-                <button type="button" onclick="nextStep(1)">Suivant</button>
-            </div>
-    
-            <div class="step">
-                <h2>Étape 2: Informations Académiques</h2>
-                <label for="matricule">Matricule:</label>
-                <input type="text" id="matricule" name="matricule" required>
-    
-                <label for="anneeAcademique">Année Académique:</label>
-                <input type="text" id="anneeAcademique" name="anneeAcademique" required>
-    
-                <label for="faculte">Faculté:</label>
-                <input type="text" id="faculte" name="faculte" list="facultes" required>
-                <datalist id="facultes">
-                    <option th:each="faculte : ${facultes}" th:value="${faculte}"></option>
-                </datalist>
-    
-                <button type="button" onclick="nextStep(2)">Suivant</button>
-            </div>
-    
-            <div class="step">
-                <h2>Étape 3: Informations Complémentaires</h2>
-                <label for="departement">Département:</label>
-                <input type="text" id="departement" name="departement" list="departements" required>
-                <datalist id="departements">
-                    <option th:each="departement : ${departements}" th:value="${departement}"></option>
-                </datalist>
-    
-                <label for="filiere">Filière:</label>
-                <input type="text" id="filiere" name="filiere" list="filieres" required>
-                <datalist id="filieres">
-                    <option th:each="filiere : ${filieres}" th:value="${filiere}"></option>
-                </datalist>
-    
-                <label for="niveau">Niveau:</label>
-                <input type="number" id="niveau" name="niveau" required>
-    
-                <button type="button" onclick="nextStep(3)">Suivant</button>
-            </div>
-    
-            <div class="step">
-                <h2>Étape 4: Finalisation</h2>
-                <label for="dateNaissance">Date de Naissance:</label>
-                <input type="date" id="dateNaissance" name="dateNaissance" required>
-    
-                <label for="lieuNaissance">Lieu de Naissance:</label>
-                <input type="text" id="lieuNaissance" name="lieuNaissance" required>
-    
-                <label for="payement">Payement:</label>
-                <input type="text" id="payement" name="payement" required>
-    
-                <label for="photo">Photo:</label>
-                <input type="file" id="photo" name="photo" accept="image/*" required>
-    
-                <label for="default_logo">Logo universitaire:</label>
-                <input type="file" id="default_logo" name="default_logo" accept="image/*" required>
-    
-                <button type="submit">Enregistrer</button>
-            </div>
-        </form>
-        <a href="/connexion" class="link">Déjà inscrit ? Connexion</a>
-    </div>
-</body>
-</html> -->
-
+<!-- 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px; /* Augmentation du padding */
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px; /* Augmentation de la largeur */
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="password"],
-        input[type="file"],
-        input[type="date"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 12px; /* Augmentation de l'espace intérieur */
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        select:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px; /* Augmentation du padding */
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .link {
-            margin-top: 15px;
-            display: block;
-            color: #007bff;
-            text-decoration: none;
-        }
-        .link:hover {
-            text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .step {
-            display: none; /* Cache toutes les étapes par défaut */
-        }
-        .step.active {
-            display: block; /* Affiche seulement l'étape active */
-        }
-    </style>
+    <link rel="stylesheet" href="inscription.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Met à jour les départements en fonction de la faculté sélectionnée
+            $('#faculte').change(function() {
+                const faculteId = $(this).val();
+                $.ajax({
+                    url: `/departements/faculte/${faculteId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#departement').empty();
+                        data.forEach(function(departement) {
+                            $('#departement').append(new Option(departement.nom, departement.id));
+                        });
+                    }
+                });
+            });
+
+            // Met à jour les filières en fonction du département sélectionné
+            $('#departement').change(function() {
+                const departementId = $(this).val();
+                $.ajax({
+                    url: `/filieres/departement/${departementId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#filiere').empty();
+                        data.forEach(function(filiere) {
+                            $('#filiere').append(new Option(filiere.nom, filiere.id));
+                        });
+                    }
+                });
+            });
+
+            // Met à jour les niveaux en fonction de la filière sélectionnée
+            $('#filiere').change(function() {
+                const filiereId = $(this).val();
+                $.ajax({
+                    url: `/niveaux/filieres/${filiereId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#niveau').empty();
+                        data.forEach(function(niveau) {
+                            $('#niveau').append(new Option(niveau.nom, niveau.id));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         function validatePayment() {
             // Simuler la validation du paiement
@@ -357,6 +165,192 @@
                 <button type="button" onclick="validatePayment()">Valider le Paiement</button>
             </div>
 
+        </form>
+        <a href="/connexion" class="link">Déjà inscrit ? Connexion</a>
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="inscription.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function nextStep(step) {
+            $('.step').removeClass('active').hide();
+            $('.step').eq(step).addClass('active').show();
+        }
+        $(document).ready(function() {
+
+            
+            // Met à jour les départements en fonction de la faculté sélectionnée
+            $('#faculte').change(function() {
+                const faculteId = $(this).val();
+                $.ajax({
+                    url: `/departements/faculte/${faculteId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#departement').empty().append(new Option("Sélectionnez un département...", ""));
+                        data.forEach(function(departement) {
+                            $('#departement').append(new Option(departement.nom, departement.id));
+                        });
+                    },
+                    error: function() {
+                        alert("Erreur lors de la récupération des départements.");
+                    }
+                });
+            });
+
+            // Met à jour les filières en fonction du département sélectionné
+            $('#departement').change(function() {
+                const departementId = $(this).val();
+                $.ajax({
+                    url: `/filieres/departement/${departementId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#filiere').empty().append(new Option("Sélectionnez une filière...", ""));
+                        data.forEach(function(filiere) {
+                            $('#filiere').append(new Option(filiere.nom, filiere.id));
+                        });
+                    },
+                    error: function() {
+                        alert("Erreur lors de la récupération des filières.");
+                    }
+                });
+            });
+
+            // Met à jour les niveaux en fonction de la filière sélectionnée
+            $('#filiere').change(function() {
+                const filiereId = $(this).val();
+                $.ajax({
+                    url: `/niveaux/filieres/${filiereId}`,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#niveau').empty().append(new Option("Sélectionnez un niveau...", ""));
+                        data.forEach(function(niveau) {
+                            $('#niveau').append(new Option(niveau.niveau, niveau.id));
+                        });
+                    },
+                    error: function() {
+                        alert("Erreur lors de la récupération des niveaux.");
+                    }
+                });
+            });
+        });
+
+        function validatePayment() {
+            // Simuler la validation du paiement
+            alert("Paiement validé avec succès !");
+            // Soumet le formulaire
+            document.getElementById("registrationForm").submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Inscription</h1>
+        <form id="registrationForm" action="/enregistrer" method="post" enctype="multipart/form-data">
+            <div class="step active">
+                <h2>Étape 1: Informations Personnelles</h2>
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+
+                <label for="prenom">Prénom:</label>
+                <input type="text" id="prenom" name="prenom" required>
+
+                <label for="genre">Genre:</label>
+                <select id="genre" name="genre" required>
+                    <option value="">Sélectionnez...</option>
+                    <option value="masculin">Masculin</option>
+                    <option value="feminin">Féminin</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="motpass">Mot de passe:</label>
+                <input type="text" id="motpass" name="motpass" required>
+                <button type="button" onclick="nextStep(1)">Suivant</button>
+            </div>
+
+            <div class="step">
+                <h2>Étape 2: Informations Académiques</h2>
+                <label for="matricule">Matricule:</label>
+                <input type="text" id="matricule" name="matricule" required>
+
+                <label for="anneeAcademique">Année Académique:</label>
+                <input type="text" id="anneeAcademique" name="anneeAcademique" required>
+
+                <label for="faculte">Faculté:</label>
+                <select id="faculte" name="faculteId" required>
+                    <option value="">Sélectionnez une faculté...</option>
+                    <th:block th:each="faculte : ${facultes}">
+                        <option th:value="${faculte.id}" th:text="${faculte.nom}"></option>
+                    </th:block>
+                </select>
+
+                <button type="button" onclick="nextStep(2)">Suivant</button>
+            </div>
+
+            <div class="step">
+                <h2>Étape 3: Informations Complémentaires</h2>
+                <label for="departement">Département:</label>
+                <select id="departement" name="departementId" required>
+                    <option value="">Sélectionnez un département...</option>
+                </select>
+
+                <label for="filiere">Filière:</label>
+                <select id="filiere" name="filiereId" required>
+                    <option value="">Sélectionnez une filière...</option>
+                </select>
+
+                <label for="niveau">Niveau:</label>
+                <select id="niveau" name="niveauId" required>
+                    <option value="">Sélectionnez un niveau...</option>
+                </select>
+
+                <button type="button" onclick="nextStep(3)">Suivant</button>
+            </div>
+
+            <div class="step">
+                <h2>Étape 4: Finalisation</h2>
+                <label for="dateNaissance">Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" required>
+
+                <label for="lieuNaissance">Lieu de Naissance:</label>
+                <input type="text" id="lieuNaissance" name="lieuNaissance" required>
+
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+
+                <label for="default_logo">Logo universitaire:</label>
+                <input type="file" id="default_logo" name="default_logo" accept="image/*" required>
+
+                <button type="button" onclick="nextStep(4)">Suivant</button>
+            </div>
+
+            <div class="step">
+                <h2>Étape 5: Paiement</h2>
+                <label for="modePaiement">Mode de Paiement:</label>
+                <select id="modePaiement" name="modePaiement" required>
+                    <option value="">Sélectionnez un mode de paiement...</option>
+                    <option value="orange">Orange Money</option>
+                    <option value="mtn">MTN Mobile Money</option>
+                </select>
+
+                <label for="telephone">Numéro de Téléphone:</label>
+                <input type="text" id="telephone" name="telephone" required>
+
+                <label for="montant">Montant du Paiement:</label>
+                <input type="number" id="payement" name="payement" required>
+
+                <label for="codeSecret">Code Secret:</label>
+                <input type="password" id="codeSecret" name="codeSecret" required>
+
+                <button type="button" onclick="validatePayment()">Valider le Paiement</button>
+            </div>
         </form>
         <a href="/connexion" class="link">Déjà inscrit ? Connexion</a>
     </div>
