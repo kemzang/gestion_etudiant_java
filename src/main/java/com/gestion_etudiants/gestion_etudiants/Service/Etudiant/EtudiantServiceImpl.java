@@ -10,6 +10,7 @@ import com.gestion_etudiants.gestion_etudiants.Repository.Etudiant.EtudiantRepos
 import com.gestion_etudiants.gestion_etudiants.Repository.Faculte.FacuteRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Filiere.FiliereRepository;
 import com.gestion_etudiants.gestion_etudiants.Repository.Niveaux.NiveauxRepository;
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 import com.gestion_etudiants.gestion_etudiants.models.Faculte.Facultes;
@@ -17,7 +18,6 @@ import com.gestion_etudiants.gestion_etudiants.models.Filiere.Filieres;
 import com.gestion_etudiants.gestion_etudiants.models.Niveaux.Niveaux;
 
 
-import lombok.AllArgsConstructor;
 import java.util.List;
 
 @Service

@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import com.gestion_etudiants.gestion_etudiants.Service.Administrateur.UserServiceImplement;
 import com.gestion_etudiants.gestion_etudiants.Service.Etudiant.EtudiantServiceImpl;
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 import com.gestion_etudiants.gestion_etudiants.models.Departement.Departements;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 import com.gestion_etudiants.gestion_etudiants.models.Faculte.Facultes;
@@ -36,6 +39,12 @@ public class EtudiantController {
     @Autowired
     private pdfCarteEtudiantService pdfCarteEtudiantService;
 
+    @Autowired
+    private UserServiceImplement userServiceImplement;
+
+    // @Autowired
+    // private User user;
+
 @PostMapping("/enregistrer")
 public String enregistrerEtudiant(@RequestParam String nom,
                                    @RequestParam String prenom,
@@ -50,7 +59,7 @@ public String enregistrerEtudiant(@RequestParam String nom,
                                    @RequestParam Long niveauId,
                                    @RequestParam int payement,
                                    @RequestParam("photo") MultipartFile photo,
-                                   @RequestParam("default_logo") MultipartFile photoDefaut,
+                                //    @RequestParam("default_logo") MultipartFile photoDefaut,
                                    Model model) throws IOException {
 
     // Récupérer les entités
@@ -88,12 +97,19 @@ public String enregistrerEtudiant(@RequestParam String nom,
         return "error"; // Redirigez vers une page d'erreur
     }
 
-    if (!photoDefaut.isEmpty()) {
-        etudiant.setPhotoDefaut(photoDefaut.getBytes());
+    // if (!photoDefaut.isEmpty()) {
+    //     etudiant.setPhotoDefaut(photoDefaut.getBytes());
+    // }
+
+    // Récupérer le premier utilisateur
+    User user = userServiceImplement.getFirstUser();
+    if (user == null) {
+        model.addAttribute("error", "Aucun utilisateur trouvé.");
+        return "error"; // Redirigez vers une page d'erreur
     }
 
     // Générez les PDF
-    byte[] pdfAttestationScolarite = pdfService.generatePdf(etudiant);
+    byte[] pdfAttestationScolarite = pdfService.generatePdf(etudiant, user);
     byte[] pdfCarteEtudiant = pdfCarteEtudiantService.generateMembershipCard(etudiant);
 
     // Stockez les PDF dans les champs correspondants

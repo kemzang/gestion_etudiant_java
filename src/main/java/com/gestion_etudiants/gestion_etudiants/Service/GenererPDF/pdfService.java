@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
+import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 import com.gestion_etudiants.gestion_etudiants.models.Etudiant.Etudiant;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -20,7 +21,7 @@ import com.itextpdf.layout.element.Table;
 @Service
 public class pdfService {
 
-    public byte[] generatePdf(Etudiant etudiant) throws IOException {
+    public byte[] generatePdf(Etudiant etudiant, User user) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PdfWriter writer = new PdfWriter(baos);
              PdfDocument pdfDoc = new PdfDocument(writer);
@@ -43,7 +44,7 @@ public class pdfService {
                     .setBorder(Border.NO_BORDER)); // Retirer la bordure de la cellule
 
             // Image au centre
-            byte[] photoDefaut = etudiant.getPhotoDefaut(); 
+            byte[] photoDefaut = user.getPhotoDefaut(); 
             Image image;
             if (photoDefaut != null) {
                 image = new Image(ImageDataFactory.create(photoDefaut))

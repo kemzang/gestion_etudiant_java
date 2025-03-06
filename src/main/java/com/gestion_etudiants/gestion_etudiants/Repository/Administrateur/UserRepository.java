@@ -6,4 +6,5 @@ import com.gestion_etudiants.gestion_etudiants.models.Administrateur.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByMatricule(String matricule); // Remplacez findByUsername par findByMatricule
+    User findFirstByOrderByIdAsc();
 }

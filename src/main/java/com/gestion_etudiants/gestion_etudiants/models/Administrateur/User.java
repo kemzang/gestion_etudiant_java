@@ -25,10 +25,14 @@ public class User {
     @Column(length = 150)
     private String role;
 
-    public User(String matricule, String motpass, String role) {
+    @Lob // Champ pour stocker la photo par défaut
+    private byte[] photoDefaut;
+
+    public User(String matricule, String motpass, String role, byte[] photoDefaut) {
         this.matricule = matricule;
         this.motpass = motpass;
         this.role = (role == null || role.isEmpty()) ? "administrateur" : role;
+        this.photoDefaut = photoDefaut;
     }
     
 }

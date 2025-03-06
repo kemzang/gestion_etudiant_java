@@ -29,4 +29,7 @@ public class UserServiceImplement implements UserService{
         }
         return null; // Retourne null si l'utilisateur n'existe pas, le mot de passe est incorrect ou le rôle ne correspond pas
     }
+    public User getFirstUser() {
+        return userRepository.findFirstByOrderByIdAsc(); // Assurez-vous que 'Id' correspond à votre champ d'identifiant
+    }
 }

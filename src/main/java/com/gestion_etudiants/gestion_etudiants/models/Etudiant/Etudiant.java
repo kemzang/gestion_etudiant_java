@@ -67,8 +67,8 @@ public class Etudiant {
     @Lob // Champ pour stocker la photo
     private byte[] photo;
 
-    @Lob // Champ pour stocker la photo par défaut
-    private byte[] photoDefaut;
+    // @Lob // Champ pour stocker la photo par défaut
+    // private byte[] photoDefaut;
 
     @Lob // Large Object pour stocker des données binaires
     private byte[] pdfAttestationScolarite;
@@ -80,7 +80,7 @@ public class Etudiant {
     public Etudiant(String nom, String prenom, LocalDate dateNaissance, String lieuNaissance, String matricule,
                     String anneeAcademique, Facultes faculte, Departements departement, Filieres filiere,
                     String motpass, String role, Niveaux niveau, int payement, byte[] pdfAttestationScolarite,
-                    byte[] pdfCarteEtudiant, byte[] photo, byte[] photoDefaut) {
+                    byte[] pdfCarteEtudiant, byte[] photo) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
@@ -95,7 +95,7 @@ public class Etudiant {
         this.niveau = niveau;
         this.payement = payement;
         this.photo = photo;
-        this.photoDefaut = photoDefaut;
+        // this.photoDefaut = photoDefaut;
         this.pdfAttestationScolarite = pdfAttestationScolarite;
         this.pdfCarteEtudiant = pdfCarteEtudiant;
     }
