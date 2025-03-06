@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Session Etudiant</title>
     <style>
         body {
@@ -38,20 +39,6 @@
             background-color: #45a049;
         }
 
-        .user-profile {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid white;
-            cursor: pointer;
-        }
-
-        .user-profile img {
-            width: 100%;
-            height: auto;
-        }
-
         .container {
             padding: 20px;
         }
@@ -81,6 +68,23 @@
         button:hover {
             background-color: #45a049;
         }
+
+        .user-profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            cursor: pointer;
+            display: flex; /* Utiliser flexbox pour centrer l'icône */
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+        }
+
+        .user-profile i {
+            font-size: 24px; /* Taille de l'icône */
+            color: white; /* Couleur de l'icône */
+        }
     </style>
 </head>
 <body>
@@ -89,10 +93,14 @@
         <nav>
             <a href="/index">Accueil</a>
             <a href="/session_etudiant">Documents</a>
+            <a style="color: red;" href="/index"> deconnexion</a>
         </nav>
+        <div style="display: flex; align-items: center; ">
+            <span style="margin-right: 10px;" th:text="${nom}">Nom</span>
         <a href="/session_etudiant" class="user-profile">
-            <img src="default_logo.jpg" alt="Photo de Profil" />
+            <i class="fas fa-user" title="Profil"></i>  
         </a>
+        </div>
     </header>
 
     <div class="container">
